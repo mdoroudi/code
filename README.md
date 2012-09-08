@@ -1,4 +1,4 @@
 code
 ====
 
-Random codes that I want to keep around
+Random codes that I want to keep around for future reference
