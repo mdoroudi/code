@@ -74,6 +74,12 @@ def min(treeNode)
   min(treeNode.left) 
 end
 
+def inorder_successor(treeNode, data)
+end
+
+def inorder_predecessor(treeNode, data)
+end
+
 
 
 treeNode = TreeNode.new(50)
