@@ -20,11 +20,12 @@ def insert_recursive(treeNode, new_data)
   end
 end
 
-def delete(treeNode, data)
+def search(treeNode, data)
   debugger
   if treeNode.nil? || treeNode.data.nil? 
-    return treeNode
+    return false
   elsif treeNode.data == data
+    return true
     #this is when the root of the original tree is the node to be deleted
   elsif treeNode.data > data
     search(treeNode.left, data)
@@ -33,12 +34,11 @@ def delete(treeNode, data)
   end
 end
 
-def search(treeNode, data)
+def delete(treeNode, data)
   if treeNode.nil? || treeNode.data.nil? 
-    return false
+    return treeNode
   elsif treeNode.data == data
-    # have to delete the ndoe    
-    # still need to work on this whole thing
+    # have to delete the ndoe and replace it with inorder processor or successor 
   elsif treeNode.data > data
     delete(treeNode.left, data)
   else
@@ -74,10 +74,32 @@ def min(treeNode)
   min(treeNode.left) 
 end
 
-def inorder_successor(treeNode, data)
+# need to write to get the parent of a node, dont' feel like writing it now
+def inorder_successor(treeNode, node)
+  if node.left
+    node = node.left
+    while node.right
+      node = node.right
+    end
+    return node
+  else
+    # return it's parents 
+  end
 end
 
-def inorder_predecessor(treeNode, data)
+
+# need to write to get the parent of a node, dont' feel like writing it now
+def inorder_predecessor(treeNode, node)
+  if node.right
+    node = node.right
+    while node.left
+      node = node.left
+    end
+    return node
+  else
+    # return it's parent
+  end
+
 end
 
 
