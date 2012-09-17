@@ -69,4 +69,64 @@ describe Heap do
   its(:max) { should eq 20}
   its(:height) { should eq 3.0 }
 
+  describe :heap_sort do
+    it "shoud sort an empty array" do
+      array = []
+      heap = Heap.new(array)
+      heap.heap_sort.should eq array
+    end
+
+    it "shoud sort a heap of size 1" do
+      array = [1]
+      heap = Heap.new(array)
+      heap.heap_sort.should eq array
+    end
+
+    it "should sort an array of same items right" do
+      array = [1,1,1,1,1,1]
+      heap = Heap.new(array)
+      heap.heap_sort.should eq array 
+    end
+
+    it "shoud sort an array with some duplicates right" do
+      array = [7,5,6,7,0]
+      heap = Heap.new(array)
+      heap.heap_sort.should eq [0, 5,6,7,7]
+    end
+
+    it "shoud sort an array right" do
+      array = [20,21,22,0,9,8]
+      heap = Heap.new(array)
+      heap.heap_sort.should eq [0,8,9,20,21,22]
+    end
+  end
+
+  describe :merge do
+    it "should merge two empty arrays right" do
+      heap1 = Heap.new
+      heap2 = Heap.new
+      heap1.merge(heap2).should eq heap1
+    end
+
+    it "should merge an empty array with a non empty array" do
+      heap1 = Heap.new
+      heap2 = Heap.new([1])
+      heap1.merge(heap2).should eq heap2
+    end
+
+    it "should merge two heaps of size 1" do
+      heap1 = Heap.new([1])
+      heap2 = Heap.new([3])
+      heap1.merge(heap2).should eq Heap.new([1,3])
+    end
+
+    it "shoud merge two heaps together right" do
+      arr1 = [10,42,5,6]
+      arr2 = [43,0,1]
+      heap1 = Heap.new(arr1)
+      heap2 = Heap.new(arr2)
+      heap1.merge(heap2).should eq Heap.new((arr1 + arr2))
+    end
+  end
+
 end

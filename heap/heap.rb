@@ -55,7 +55,7 @@ class Heap < Array
 
   # index is an index that is not at the right place
   def max_heapify(index)
-    if self.left_i(index) > self.last_index && self.right_i(index) > self.last_index
+    if self.left_i(index) > (self.size - 1) && self.right_i(index) > (self.size - 1)
       self.max_heapify_bottom_up(index)
     else
       self.max_heapify_top_down(index)
@@ -63,15 +63,22 @@ class Heap < Array
   end
 
   def heap_sort
-    @last_i = last_index() 
+    return self if self.size < 1
+    @last_i = self.size - 1 if @last_i.nil?
+    return self if @last_i == 0
+
     self.swap(0, @last_i)
-    @last_i =- 1
-    self.max_heapify_top_down(0)
+    @last_i = @last_i - 1
+    self.max_heapify_top_down(0, @last_i)
     self.heap_sort
   end
   
   # merge two heaps together
-  def merge(secon_heap)
+  def merge(second_heap)
+    second_heap.each do |item|
+      self.insert(item)
+    end
+    self
   end
 
   protected
@@ -85,37 +92,33 @@ class Heap < Array
   end
 
   # if element is on top or in the middle and is smaller than it's children
-  def max_heapify_top_down(index)
-
-    if self.right_i(index) > self.last_index
+  def max_heapify_top_down(index, last_index = nil)
+    last_index ||= self.size - 1
+    if self.right_i(index) <= last_index
       if self[self.right_i(index)] > self[index]
         larger_i = self.right_i(index)
       else
         larger_i = index
       end
+    else
+      larger_i = index 
     end
 
-    if self.left_i(index) > self.last_index
-      if self[self.left_i(index)] > self[index]
+
+    if self.left_i(index) <= last_index
+      if self[self.left_i(index)] > self[larger_i]
         larger_i = self.left_i(index)
       end
     end
 
-    larger_i = index if larger_i.nil?
-
     if larger_i != index
       self.swap(larger_i, index)
-      max_heapify_top_down(larger_i)
+      max_heapify_top_down(larger_i, last_index)
     else
       return
     end
     
   end
 
-  def last_index
-    @last_i || self.size - 1
-  end
 end
 
-#heap  = Heap.new([1,12,11,9, 20, 0, 3, 20])
-#puts heap.heap_sort
