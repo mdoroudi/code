@@ -18,10 +18,35 @@ describe :quick_sort do
     quick_sort([10,9,3,10,8]).should eq [3,8,9,10,10]
   end
 
+  it "should return the same arrya with all duplicates" do
+    quick_sort([1,1,1,1]).should eq [1,1,1,1]
+  end
 end
 
 describe :heap_sort do
   it "should call heapsort correctly" do
     heap_sort([4,35,3,5]).should eq [3,4,5,35]
+  end
+end
+
+describe :merge_sort do
+  it "should sort an array" do
+    merge_sort([3,0]).should eq [0,3]
+  end
+
+  it "should return empty for an emtpy array" do
+    merge_sort([]).should eq []
+  end
+
+  it "should return same for array fo size 1" do
+    merge_sort([1]).should eq [1]
+  end
+
+  it "should sort correctly an array with dups" do
+    merge_sort([10,9,3,10,8]).should eq [3,8,9,10,10]
+  end
+
+  it "should return the same arrya with all duplicates" do
+    merge_sort([1,1,1,1]).should eq [1,1,1,1]
   end
 end
