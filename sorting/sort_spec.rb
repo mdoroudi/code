@@ -17,4 +17,11 @@ describe :quick_sort do
   it "should sort correctly an array with dups" do
     quick_sort([10,9,3,10,8]).should eq [3,8,9,10,10]
   end
+
+end
+
+describe :heap_sort do
+  it "should call heapsort correctly" do
+    heap_sort([4,35,3,5]).should eq [3,4,5,35]
+  end
 end
