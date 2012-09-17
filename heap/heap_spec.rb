@@ -129,4 +129,26 @@ describe Heap do
     end
   end
 
+  describe :delete_max do
+    it "should do nothing if heap is empty" do
+      heap = Heap.new([])
+      heap.delete_max.should be heap
+    end
+
+    it "should return an empty heap if size is 1" do
+      heap = Heap.new([1])
+      heap.delete_max.should eq Heap.new([])
+    end
+
+    it "should delete an element if size is larger than 0" do
+      heap = Heap.new([1,2,3,4])
+      heap.delete_max.size.should be 3
+    end
+
+    it "should return a correct heap when deleting max" do
+      heap = Heap.new([1,2,3])
+      heap.delete_max.should eq Heap.new([1,2])
+    end
+  end 
+
 end

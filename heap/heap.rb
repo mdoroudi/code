@@ -44,7 +44,13 @@ class Heap < Array
   end
 
   def delete_max
+    return self if self.size == 0
+    return Heap.new if self.size == 1
 
+    self.swap(0, self.size - 1)
+    self.delete_at(self.size - 1)
+    self.max_heapify(0)
+    self
   end
 
   def swap(i_1, i_2)
@@ -121,4 +127,3 @@ class Heap < Array
   end
 
 end
-
