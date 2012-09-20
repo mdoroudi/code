@@ -50,3 +50,47 @@ describe :merge_sort do
     merge_sort([1,1,1,1]).should eq [1,1,1,1]
   end
 end
+
+describe :insertion_sort do
+  it "should sort an array" do
+    insertion_sort([3,0]).should eq [0,3]
+  end
+
+  it "should return empty for an emtpy array" do
+    insertion_sort([]).should eq []
+  end
+
+  it "should return same for array fo size 1" do
+    insertion_sort([1]).should eq [1]
+  end
+
+  it "should sort correctly an array with dups" do
+    insertion_sort([10,9,3,10,8]).should eq [3,8,9,10,10]
+  end
+
+  it "should return the same arrya with all duplicates" do
+    insertion_sort([1,1,1,1]).should eq [1,1,1,1]
+  end
+end
+
+describe :bubble_sort do
+  it "should sort an array" do
+    bubble_sort([3,0]).should eq [0,3]
+  end
+
+  it "should return empty for an emtpy array" do
+    bubble_sort([]).should eq []
+  end
+
+  it "should return same for array fo size 1" do
+    bubble_sort([1]).should eq [1]
+  end
+
+  it "should sort correctly an array with dups" do
+    bubble_sort([10,9,3,10,8]).should eq [3,8,9,10,10]
+  end
+
+  it "should return the same arrya with all duplicates" do
+    bubble_sort([1,1,1,1]).should eq [1,1,1,1]
+  end
+end

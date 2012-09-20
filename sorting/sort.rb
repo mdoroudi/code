@@ -62,3 +62,35 @@ def merge(arr1, arr2)
   return result.concat(arr1[i1...(arr1.size)]) if arr2[i2].nil?
 
 end
+
+def insertion_sort(array)
+  return array if array.size < 2 
+  key_i = 1
+
+  for k in (1...array.size)
+    for i in (0...k)
+      if array[i] > array[k]
+        swap(array, i, k)
+      end  
+    end
+  end
+  array
+end
+
+def swap(array, i, j)
+  tmp = array[i]
+  array[i] = array[j]
+  array[j] = tmp
+end
+
+def bubble_sort(array)
+  total_iterations = array.size
+  total_iterations.times do |i|
+    for j in (0...total_iterations-1) 
+      if array[j] > array[j+1]
+        swap(array, j, j+1)
+      end
+    end
+  end
+  array
+end
