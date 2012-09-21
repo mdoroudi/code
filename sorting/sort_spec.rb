@@ -138,3 +138,31 @@ describe :counting_sort do
     counting_sort([1,1,1,1], 1).should eq [1,1,1,1]
   end
 end
+
+
+describe :bucket_sort do
+  it "should sort an array" do
+    bucket_sort([3,0], 0, 3).should eq [0,3]
+  end
+
+  it "should return empty for an emtpy array" do
+    bucket_sort([], 0,0).should eq []
+  end
+
+  it "should return same for array fo size 1" do
+    bucket_sort([1], 1,1).should eq [1]
+  end
+
+  it "should sort correctly an array with dups" do
+    bucket_sort([10,9,3,10,8], 0, 10).should eq [3,8,9,10,10]
+  end
+
+  it "should return the same arrya with all duplicates" do
+    bucket_sort([1,1,1,1], 1,1).should eq [1,1,1,1]
+  end
+
+  it "should easiry sort a big array" do
+    array = [4,3,2,1,1,5,0,9,8,7,6,20,10,15]
+    bucket_sort(array, 0, 20).should eq [0,1,1,2,3,4,5,6,7,8,9,10,15,20]
+  end
+end

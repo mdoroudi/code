@@ -107,6 +107,10 @@ def bubble_sort(array)
   array
 end
 
+
+
+##### COUNTING SORT #####
+
 def counting_sort(array, max)
   return array if array.size < 2 
   positions = Array.new(max + 1, 0) 
@@ -125,4 +129,27 @@ def counting_sort(array, max)
   end
 
   return result
+end
+
+
+def bucket_sort(array, min, max)
+  return array if array.size < 2
+
+  b_size = 10
+  # if we instanciate this with [] it instanciat eit with the same object
+  # then when we insert to on of the indeces it inserts to all
+  bucket = Array.new((max - min + 1)/b_size + 1)
+  array.each do |a|
+    if bucket[a/b_size].nil?
+      bucket[a/b_size] = [a]
+    else
+      bucket[a/b_size] << a
+    end
+  end
+
+  bucket.each do |b|
+    insertion_sort_more_efficient(b)
+  end
+  
+  bucket.flatten
 end
