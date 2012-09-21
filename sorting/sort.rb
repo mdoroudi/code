@@ -65,13 +65,25 @@ end
 
 def insertion_sort(array)
   return array if array.size < 2 
-  key_i = 1
 
   for k in (1...array.size)
     for i in (0...k)
       if array[i] > array[k]
         swap(array, i, k)
       end  
+    end
+  end
+  array
+end
+
+def insertion_sort_more_efficient(array)
+  return array if array.size < 2
+
+  for k in (1...array.size)
+    index = k - 1
+    while index >= 0 and array[index] > array[index+1]
+      swap(array, index, index+1)
+      index -= 1
     end
   end
   array
@@ -93,4 +105,24 @@ def bubble_sort(array)
     end
   end
   array
+end
+
+def counting_sort(array, max)
+  return array if array.size < 2 
+  positions = Array.new(max + 1, 0) 
+  result = Array.new(array.size)
+
+  array.each do |item|
+    positions[item] = positions[item] + 1
+  end
+  for i in (1...positions.size)
+    positions[i] = positions[i-1] + positions[i]
+  end
+
+  array.each_with_index do |item, index|
+    result[positions[item] - 1] = item 
+    positions[item] -= 1
+  end
+
+  return result
 end
