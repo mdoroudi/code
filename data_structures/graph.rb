@@ -45,7 +45,31 @@ class Graph < Hash
         dfs_visit(self[key], time)
       end
     end
-
+  end
+  
+  def print_shortest_path(start_id, end_id)
+    bfs(start_id)
+    if start_id == end_id
+      puts start_id
+      return
+    end
+    if self[end_id].parent.nil?
+      puts "there is no path to #{end_id}" 
+      return
+    end
+    print_shortest_path(start_id, self[end_id].parent.data[:id])
+    puts end_id
+  end
+  
+  def count_loops_and_cross_edges
+    clear_params(true)
+    time = 0
+    self.each_key do |key|
+      if self[key].color == white
+        dfs_visit(self[key], time, true)
+      end
+    end
+    {loops: @loops, cross_edges: @cross_edges}
   end
 
   protected
@@ -56,7 +80,7 @@ class Graph < Hash
     end
   end
 
-  def dfs_visit(node, time)
+  def dfs_visit(node, time, find_loop_back_edges = false)
     time += 1 
     node.distance = time 
     node.color = gray
@@ -64,6 +88,12 @@ class Graph < Hash
       if child.color == white
         child.parent = node
         dfs_visit(child, time)
+      elsif find_loop_back_edges
+        if child.color == gray
+          @loops = @loops.nil? ? 1 : @loops + 1
+        elsif child.color == black
+          @cross_edges = @cross_edges.nil? ? 1 : @cross_edges + 1
+        end
       end
     end
     node.color = black
@@ -121,5 +151,7 @@ end
 
 g = Graph.new
 g.insert_pinterest_users(500)
-g.bfs(788870756)
-g.dfs
+#g.bfs(788870756)
+#g.dfs
+#g.print_shortest_path(788870756, 415148244)
+puts g.count_loops_and_cross_edges
