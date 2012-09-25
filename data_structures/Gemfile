@@ -3,3 +3,4 @@ gem 'debugger'
 gem 'activerecord'
 gem 'colorize'
 gem 'rspec'
+gem "factory_girl", "~> 4.0"
