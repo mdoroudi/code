@@ -69,6 +69,7 @@ def print_telephone_words(number, res, level, len)
     print_telephone_words(number, res, level+1, len)
   end
   for index in (0...3) do 
+    next if  number[level] == '1' || number[level] == '0'
     res[level] = get_char_key(number[level], index)
     print_telephone_words(number, res, level+1, len)
   end
@@ -77,11 +78,7 @@ def print_telephone_words(number, res, level, len)
 end
 
 def get_char_key(key, index)
-  if key == '1' || key == '0'
-    return key
-  else
-    get_char_keys(key.to_i)[index]
-  end
+  get_char_keys(key.to_i)[index]
 end
 
 def get_char_keys(key)
@@ -105,6 +102,6 @@ def get_char_keys(key)
   end
 end
 
-telephone_words("41")
+telephone_words("402")
 
 #permutation("mina")
