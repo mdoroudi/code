@@ -1,5 +1,5 @@
 ### Dynamic Programming 
-Dynamic programming is an algorithm technique which is usually based on: 
+[_Dynamic programming_](http://en.wikipedia.org/wiki/Dynamic_programming) is an algorithm technique which is usually based on: 
 * recurrent formula
 * one or more starting states
 
@@ -8,13 +8,12 @@ DP solutions have a polynomial complexity where the brute-force or backtracking 
 DP computes the recurrence efficiently because it stores (memoized) the sub-probelms and use the results instead of recalculating them everytime.
 
 ## Examples
-* Fibonacci number
-* Longest Increasing Sub Sequence
+* [_Fibonacci number_](http://en.wikipedia.org/wiki/Fibonacci_number)
+* [_Longest Increasing Sub Sequence_](http://en.wikipedia.org/wiki/Longest_increasing_subsequence)
 * Min number of coins used to add to a sum
-#### Graph DP
-* Floyd–Warshall: Single source shortest path for in a graph with positive and negative weighed edges
-* Bellman–Ford: Single source shortest path for a graph with positive and negative weighted edges, but no negative cycles.
-* Dijkstra Algorithm: Single source shortest path for a grpah with only positive edges.
+* [_Floyd–Warshall_](http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm): Single source shortest path for in a graph with positive and negative weighed edges
+* [_Bellman–Ford_](http://en.wikipedia.org/wiki/Bellman-Ford_algorithm): Single source shortest path for a graph with positive and negative weighted edges, but no negative cycles.
+* [_Dijkstra Algorithm_](http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm): Single source shortest path for a grpah with only positive edges.
 
-Resources used here are 
-http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=dynProg and http://www.algorist.com/
+The resources used are the following 
+[_TopCoder_](http://community.topcoder.com/tc?module=Static&d1=tutorials&d2=dynProg) and [_The Algorithm Design Manual_](http://www. algorist.com/)
