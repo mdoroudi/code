@@ -1,4 +1,4 @@
-### Dynamic Programming 
+## Dynamic Programming 
 [_Dynamic programming_](http://en.wikipedia.org/wiki/Dynamic_programming) is an algorithm technique which is usually based on: 
 * recurrent formula
 * one or more starting states
@@ -7,7 +7,9 @@ A sub-solution of the problem is constructed from previously found ones, which s
 DP solutions have a polynomial complexity where the brute-force or backtracking solutions usually have exponantial solutions.
 DP computes the recurrence efficiently because it stores (memoized) the sub-probelms and use the results instead of recalculating them everytime.
 
-## Examples
+#### Examples
+These are the examples implemented in this project:
+
 * [_Fibonacci number_](http://en.wikipedia.org/wiki/Fibonacci_number)
 * [_Longest Increasing Sub Sequence_](http://en.wikipedia.org/wiki/Longest_increasing_subsequence)
 * Min number of coins used to add to a sum
