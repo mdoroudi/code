@@ -12,11 +12,9 @@ require 'debugger'
 #
 def longest_increasing_subsequence(sqnc)
   length = sqnc.size
-  len = [1]*length       # length of longest ISS for upto character i
+  len = [1]*length            # length of longest ISS for upto character i, at the begginign every element is its own LISS
   parents_arr = [nil]*length  # predecesor of longest ISS of the sqnc[i]
-  largest = 0            # the length of the longest ISS found so far
- 
-  len[0] = 1             # the first element in the list can't have a longer ISS than itself
+  largest = 0                 # the length of the longest ISS found so far
 
   for index in (1...length)
     j = index - 1
@@ -30,16 +28,20 @@ def longest_increasing_subsequence(sqnc)
     end
   end
 
-  index = len.find_index(largest)
-  res = []
-  res << sqnc[index]
-  while !parents_arr[index].nil? do 
-    index = parents_arr[index]
+  max_indices = []
+  len.each_with_index {|item,index| max_indices << index if item == largest}
+
+  max_indices.each do |index|
+    res = []
     res << sqnc[index]
+    while !parents_arr[index].nil? do 
+      index = parents_arr[index]
+      res << sqnc[index]
+    end
+    puts res.reverse 
   end
-  res.reverse 
 end
 
 sequence = [ 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15]
-puts longest_increasing_subsequence(sequence)
+longest_increasing_subsequence(sequence)
 
