@@ -82,4 +82,42 @@ describe "string matchign problem" do
 
 
   end
+
+  describe :search_string_brute_force do
+    it "shoudl match everything and there for index 0 for null word" do
+      word, res = nil, 0
+      search_string_brute_force("hello", word).should eq res
+    end
+
+    it "should match nothing for empty text" do
+      text, word, res = nil, "heloo", -1
+      search_string_brute_force(text, word).should eq res
+    end
+
+    it "should match nothing for word larger than text" do
+      text, word, res = "oh", "heloo", -1
+      search_string_brute_force(text, word).should eq res
+    end
+
+    it "should match nothing if text and word don't match" do
+      text, word, res = "minador", "heloo", -1
+      search_string_brute_force(text, word).should eq res
+    end
+
+    it "should return 10 for heloo match in ahelozzzzzheloommm" do
+      text, word, res = "ahelozzzzzheloommm", "heloo", 10
+      search_string_brute_force(text, word).should eq res
+    end
+
+    it "should return 6 for search in abcabdabcdefabc for abcdef" do
+      text, word, res = "abcabdabcdefabc", "abcdef", 6
+      search_string_brute_force(text, word).should eq res
+    end      
+
+    it "should return 10 for abcabc in 012abcabd9abcabcdef11111aaa" do
+      text, word, res = "012abcabd9abcabcdef11111aaa", "abcabc", 10
+      search_string_brute_force(text, word).should eq res
+    end
+
+  end
 end

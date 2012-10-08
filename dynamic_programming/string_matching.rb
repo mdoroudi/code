@@ -1,6 +1,29 @@
 # brute force
-def search_string(text, word)
+def search_string_brute_force(text, word)
+  return 0 if word.nil?
+  return -1 if text.nil? || word.size == 0
+  return -1 if word.length > text.length
 
+  word = word.split("")
+  text_len = text.length
+  word_len = word.length
+  i = 0
+  index = 0
+
+  while i < text_len do
+    index = 0
+    while index < word_len
+      if text[i+index] == word[index]
+        index += 1
+      else 
+        break
+      end
+    end
+    return i if index == word_len 
+    i += 1
+  end
+
+  return -1
 end
 
 # Knuth–Morris–Pratt (DB) 
