@@ -18,5 +18,5 @@ The resources used are the following
 * [_Floyd–Warshall_](http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm): Single source shortest path for in a graph with positive and negative weighed edges (not started)
 * [_Bellman–Ford_](http://en.wikipedia.org/wiki/Bellman-Ford_algorithm): Single source shortest path for a graph with positive and negative weighted edges, but no negative cycles. (not started yet)
 * [_Dijkstra Algorithm_](http://en.wikipedia.org/wiki/Dijkstra%27s_algorithm): Single source shortest path for a grpah with only positive edges.
-* [_String Matching_](http://en.wikipedia.org/wiki/String_searching_algorithm) (working on it)
+* [_String Matching_](http://en.wikipedia.org/wiki/String_searching_algorithm) 
 * [_Partitioning Problem_](http://en.wikipedia.org/wiki/Partition_problem) (working on it)
