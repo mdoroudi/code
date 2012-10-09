@@ -1,26 +1,37 @@
 require 'debugger'
 def total_coins_representation(n)
   puts "total ways to represent #{n}:"
-  puts total_representation(n, 0, [])
-end
-def total_representation(n, total_coins, representations)
-  return 1 if n == 0 
-  return 1 if n == 1
-  return 0 if n < 0
-
-  ways = 
-    total_representation(n - 25, total_coins+1, representations) + 
-    total_representation(n - 5, total_coins+1, representations ) +
-    total_representation(n - 10, total_coins+1, representations) + 
-    total_representation(n - 1, total_coins+1, representations) 
-  return ways
+  puts total_calc(n)
 end
 
-total_coins_representation(1)
-total_coins_representation(2)
-total_coins_representation(3)
-total_coins_representation(4)
-total_coins_representation(5)
-total_coins_representation(13)
-total_coins_representation(10)
-total_coins_representation(9)
+
+def total_calc(n)
+  max_q = n/25
+  max_d = n/10
+  max_n = n/5
+  max_p = n
+  
+  # n = x*1 + y*5 + j*10 + w*25
+  total = 0
+
+  for w in (0..max_q)
+    for j in (0..max_d)
+      for y in (0..max_n)
+        for x in (0..max_p)
+          if n ==  x*1 + y*5 + j*10 + w*25 
+            total += 1
+          end
+        end
+      end
+    end
+  end
+ return total 
+end
+puts total_coins_representation(1)
+puts total_coins_representation(2)
+puts total_coins_representation(3)
+puts total_coins_representation(4)
+puts total_coins_representation(5)
+puts total_coins_representation(13)
+puts total_coins_representation(10)
+puts total_coins_representation(9)
