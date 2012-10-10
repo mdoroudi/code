@@ -18,7 +18,7 @@ class AirbnbCrawler
   
   # just hardcoding this for now
   def url
-    @url ||= "https://www.airbnb.com/search/ajax_get_results?search_view=1&min_bedrooms=0&min_bathrooms=0&min_beds=0&page=1&location=seattle&checkin=10%2F10%2F2012&checkout=10%2F15%2F2012&guests=1&sort=0&keywords=&per_page=21"
+    @url 
   end
 
 
@@ -66,5 +66,5 @@ class AirbnbCrawler
 
 end
 
-bnb_crawler = AirbnbCrawler.new("Seattle")
+bnb_crawler = AirbnbCrawler.new("Seattle", "10 10 2012", "10 15 2012")
 bnb_crawler.crawl()
