@@ -102,6 +102,7 @@ def get_char_keys(key)
   end
 end
 
-telephone_words("402")
+#telephone_words("402")
 
 #permutation("mina")
+puts combination("mina")
