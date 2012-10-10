@@ -1,13 +1,14 @@
-require 'nokogiri'
-require 'open-uri'
+require_relative 'property'
 require 'debugger'
 require 'net/http'
+require 'zlib'
+require 'json'
 require "uri"
 
 class AirbnbCrawler 
-  attr_accessor :search_string
-  def initialize(search)
-    @search_string = search
+  attr_accessor :url
+  def initialize(search, check_in, check_out)
+    create_search_url(search, check_in, check_out)
   end
 
 
@@ -15,16 +16,22 @@ class AirbnbCrawler
     get_search_result(url)
   end
   
+  # just hardcoding this for now
   def url
-    #"https://www.airbnb.com/s/#{@search_string}"
-    #"http://www.airbnb.com/s/Seattle--WA?checkin=10%2F11%2F2012&checkout=10%2F14%2F2012"
-    "http://www.airbnb.com/search/ajax_get_results?search_view=1&min_bedrooms=0&min_bathrooms=0&min_beds=0&page=1&location=seattle&checkin=10%2F10%2F2012&checkout=10%2F15%2F2012&guests=1&sort=0&keywords=&per_page=21"
+    @url ||= "https://www.airbnb.com/search/ajax_get_results?search_view=1&min_bedrooms=0&min_bathrooms=0&min_beds=0&page=1&location=seattle&checkin=10%2F10%2F2012&checkout=10%2F15%2F2012&guests=1&sort=0&keywords=&per_page=21"
   end
 
-  def url2
-    #"http://www.airbnb.com/s/#{@search_string}"
-    "https://www.airbnb.com/s/Seattle--WA?checkin=10%2F11%2F2012&checkout=10%2F14%2F2012"
+
+  # check in/out format '10 10 2012'
+  # location seattle 
+  def create_search_url(location, check_in, check_out)
+    check_in = check_in.gsub(" ", "%2F")
+    check_out = check_out.gsub(" ", "%2F")
+    @url = "https://www.airbnb.com/search/ajax_get_results?search_view"+
+      "=1&min_bedrooms=0&min_bathrooms=0&min_beds=0&page=1&location=#{location}"+
+      "&checkin=#{check_in}&checkout=#{check_out}&guests=1&sort=0&keywords=&per_page=21"
   end
+
 
   def get_search_result(url)
     uri = URI.parse(url)
@@ -34,26 +41,17 @@ class AirbnbCrawler
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
     request = Net::HTTP::Get.new(uri.request_uri)
-    request.add_field "user-agent","mozilla/5.0 (macintosh; intel mac os x 10_6_8) applewebkit/536.11 (khtml, like gecko) chrome/20.0.1132.57 safari/536.11"
-    request.add_field "accept", "application/json, text/javascript, */*; q=0.01"
-    request.add_field "x-requested-with", "xmlhttprequest"
 
-    debugger
     response = http.request(request)
-    response.body
-    response.status
-    response["header-here"] # All headers are lowercase
-      
-    #http.start do |http|
-      #debugger
-      #http.request(req)
-    #end
-
-    #res2 = Net::HTTP.new(uri2.host, uri2.port).start do |http|
-      #debugger
-      #http.request(req2)
-    #end
     
+    json_response = JSON.parse(response.body)
+    properties = json_response["properties"]
+    
+    properties_arr = []
+    properties.each do |property|
+      properties_arr << Property.new(property)
+    end
+    debugger
     puts "hello"
   end
 
