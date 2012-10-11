@@ -21,7 +21,6 @@ def insert_recursive(treeNode, new_data)
 end
 
 def search(treeNode, data)
-  debugger
   if treeNode.nil? || treeNode.data.nil? 
     return false
   elsif treeNode.data == data
@@ -62,6 +61,27 @@ def postorder_print(treeNode)
   postorder_print(treeNode.left) if treeNode.left
   postorder_print(treeNode.right) if treeNode.right
   puts treeNode.data
+end
+
+def nth_inorder_node(treeNode, counter)
+  # Check left node
+  if treeNode.left
+    rv = nth_inorder_node(treeNode.left, counter)
+    return rv if rv
+  end
+
+  # Check current node
+  counter.value -= 1
+  puts "counter: #{counter.value} \t node: #{treeNode.data}".green
+  return treeNode.data if counter.value == 0
+
+  # Check right node
+  if treeNode.right
+    rv = nth_inorder_node(treeNode.right, counter)
+    return rv if rv
+  end
+
+  return nil
 end
 
 def max(treeNode)
@@ -109,6 +129,13 @@ treeNode = TreeNode.new(50)
   insert_recursive(treeNode, rand(1..100))
 end
 
+class IntegerClass 
+  attr_accessor :value
+  def initialize(val)
+    @value = val
+  end
+end
+
 puts "inorder traversal".blue
 inorder_print(treeNode)
 
@@ -130,3 +157,7 @@ puts search(treeNode, s)
 
 puts "deleting 50".blue
 puts delete(treeNode, 50)
+
+puts "5th in order".blue
+counter = IntegerClass.new(5)
+puts nth_inorder_node(treeNode, counter)
