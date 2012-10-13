@@ -153,6 +153,28 @@ def match(t1, t2)
   return match(t1.right, t2.right)
 end
 
+def tree_to_ll_inorder(tree)
+  head = Ll.new()
+  ttoll_inorder_helper(tree, head)
+  return head
+end
+
+def ttoll_inorder_helper(tree, ll)
+  return if tree.nil?
+  tree_to_ll_inorder(tree.left, ll)
+
+  # head
+  if ll.data.nil?
+    ll.data = tree.data
+  else
+    ll.next = Ll.new(tree.data)
+    tmp = ll.next
+    tmp.prev = ll
+    ll = tmp
+  end
+  
+  tree_to_ll_inorder(tree.right, ll)
+end
 
 
 treeNode = TreeNode.new(50)
