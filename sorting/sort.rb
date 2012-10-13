@@ -63,6 +63,8 @@ def merge(arr1, arr2)
 
 end
 
+# Very good for arrays that are almost sorted, complexity would be O(n+d) where d is number of items out of place
+# efficient for array with fewer than 10 elements
 def insertion_sort(array)
   return array if array.size < 2 
 
