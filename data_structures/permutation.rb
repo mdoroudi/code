@@ -49,6 +49,24 @@ def do_combination(str, prev_combinations)
   prev_combinations[1..-1]
 end
 
+def selection(lists)
+  do_selection(lists, "", lists.size, 0)
+end
+
+def do_selection(lists, str_res, length, level)
+  if level == length 
+    puts str_res
+    return ""
+  end
+
+  for i in (0...lists.size)
+    for j in (0...lists[i].size)
+      str_res[level] = lists[i][j]
+      do_selection(lists[i+1...lists.size], str_res, length, level+1)
+    end
+  end
+end
+
 def telephone_words(number)
   number = number.split('-').join('')
   len = number.size
@@ -105,4 +123,7 @@ end
 #telephone_words("402")
 
 #permutation("mina")
-puts combination("mina")
+#puts combination("mina")
+#list = [%w(1 2 3), %w(5 6 7), %w(0 9 8)]
+list = [%w(1 2), %w(5 6)]
+selection(list)
