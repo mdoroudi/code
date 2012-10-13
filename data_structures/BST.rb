@@ -33,15 +33,36 @@ def search(treeNode, data)
   end
 end
 
-def delete(treeNode, data)
-  if treeNode.nil? || treeNode.data.nil? 
-    return treeNode
-  elsif treeNode.data == data
-    # have to delete the ndoe and replace it with inorder processor or successor 
+def search_with_parent(parent, treeNode, data)
+  if treeNode.nil? || treeNode.data.nil?
+    return {parent: nil, treeNode: treeNode} 
+  elsif treNode.data == data
+    return {parent: parent, treeNode: treeNode}
   elsif treeNode.data > data
-    delete(treeNode.left, data)
+    search_with_parent(treeNode, treeNode.left, data)
   else
-    delete(treeNode.right, data)
+    search_with_parent(treeNode, treeNode.right, data)
+  end
+end
+
+def delete(treeNode, data)
+  res = search_with_parent(nil, treeNode, data)
+  delete_node(res[:parent], res[:treeNode])
+end
+
+def delete_node(parent, node)
+  if node.left.nil? && node.right.nil?
+    if parent.left.data == node.data
+      parent.left = nil
+    else
+      parent.right = nil
+    end
+  elsif node.left.nil? || node.right.nil?
+    node = node.left.nil? ? node.right : node.left
+  else 
+    max_node = max(node.left)
+    node.data = max_node.data
+    delete_node(nil, max_node) 
   end
 end
 
@@ -122,6 +143,16 @@ def inorder_predecessor(treeNode, node)
 
 end
 
+# if their in order traversal matches
+def match(t1, t2)
+  return true if t1.nil? && t2.nil?
+  return false if t1.nil? || t2.nil?
+
+  return match(t1.left, t2.left)  
+  return t1.data == t2.data
+  return match(t1.right, t2.right)
+end
+
 
 
 treeNode = TreeNode.new(50)
@@ -136,28 +167,30 @@ class IntegerClass
   end
 end
 
-puts "inorder traversal".blue
-inorder_print(treeNode)
+#puts "inorder traversal".blue
+#inorder_print(treeNode)
 
-puts "preorder traversal".blue
-preorder_print(treeNode)
+#puts "preorder traversal".blue
+#preorder_print(treeNode)
 
-puts "postorder traversal".blue
-postorder_print(treeNode)
+#puts "postorder traversal".blue
+#postorder_print(treeNode)
 
-puts "min".blue
-puts min(treeNode)
+#puts "min".blue
+#puts min(treeNode)
 
-puts "max".blue
-puts max(treeNode)
+#puts "max".blue
+#puts max(treeNode)
 
-s = 10
-puts "searchign for #{s}".blue
-puts search(treeNode, s)
+#s = 10
+#puts "searchign for #{s}".blue
+#puts search(treeNode, s)
 
-puts "deleting 50".blue
-puts delete(treeNode, 50)
+#puts "deleting 50".blue
+#puts delete(treeNode, 50)
 
-puts "5th in order".blue
-counter = IntegerClass.new(5)
-puts nth_inorder_node(treeNode, counter)
+#puts "5th in order".blue
+#counter = IntegerClass.new(5)
+#puts nth_inorder_node(treeNode, counter)
+
+puts match(treeNode, treeNode)
