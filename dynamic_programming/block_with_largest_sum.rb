@@ -32,34 +32,54 @@ def matrix_largest_block(mx)
   rows = mx.size
   cols = mx[0].size
 
+  sum_mx = sum_rows_matrix(mx)
   largest = nil
+  start_largest = [0, 0]
+  end_largest = [0,0]
 
   for col1 in (0...cols)
-    for col2 in (col1...cols)
+    for col2 in (col1+1...cols)
 
       curr_sum = nil
       curr_best_sum = nil
+      start_i = 0
+      start_i2 = 0 # updates everytime curr_sum reses, but we don't want it to update if we reach the end 
+      end_i = 0
+      start_j = 0
+      end_j = 0
+
       for i in (0...rows)
-        row_sum = row_sum(mx, i, col1, col2) 
+        start_i = start_i2
+        row_sum = calc_row_sum(sum_mx, i, col1, col2) 
         curr_sum = row_sum + (curr_sum || 0)
         if curr_best_sum.nil? || curr_sum > curr_best_sum 
           curr_best_sum = curr_sum
+          end_i = i
+          start_j = col1
+          end_j = col2
         end
-        curr_sum = 0 if curr_sum < 0
+        if curr_sum < 0
+          curr_sum = 0
+          start_i2 = i+1
+        end
       end
-      largest = curr_best_sum if largest < curr_best_sum 
+      if largest < curr_best_sum 
+        largest = curr_best_sum
+        start_largest = [start_i, start_j] 
+        end_largest = [start_j, end_j]
+      end
     end
   end
-  largest
+  [largest, start_largest, end_largest]
 end
 
-def row_sum(mx, i,col1, col2)
-  mx[i][col2] - mx[i][col1]
+def calc_row_sum(sum_mx, i,col1, col2)
+  sum_mx[i][col2] - sum_mx[i][col1]
 end
 
 def sum_rows_matrix(mx)
-  rows = mx.size
-  cols = mx[0].size
+  rows = mx.size 
+  cols = mx[0].size + 1
 
   sum_mx = []*rows
   for i in (0...rows)
@@ -67,11 +87,12 @@ def sum_rows_matrix(mx)
   end
 
   for i in (0...rows)
-    sum_mx[i][0] = mx[i][0]
+    sum_mx[i][0] = 0
+    sum_mx[i][1] = mx[i][1]
   end
 
   for i in (0...rows)
-    for j in (1...cols)
+    for j in (2...cols)
       sum_mx[i][j] = sum[i][j-1] + sum[i][j]
     end
   end
