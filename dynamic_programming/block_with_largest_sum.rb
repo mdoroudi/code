@@ -100,3 +100,76 @@ def sum_rows_matrix(mx)
   sum_mx
 end
 
+# similar to above but matrix with largest square that does not contain 0
+# so given a matrix of 1's and 0's where (maybe there are mostly 1's) given a sub-matrix of the largest
+# size where it has all 1s
+#
+
+def largest_submatrix_ones(mx)
+  sum_mx = create_sum_submarix(mx)
+  rows = mx.size
+  cols = mx[0].size
+
+  largest = nil
+  start_lg = [0, 0]
+  end_lg = [0, 0]
+ 
+  for col1 in (0...cols)
+    for col2 in (col1+1...cols)
+      curr_largest = nil
+      curr_sum = nil
+
+      row = 0
+      while row < rows
+        row += 1 if has_any_zero(sum_mx, row, col1, col2)
+        curr_sum = row_sum(sum_mx, row, col2) + curr_sum
+
+        if curr_largest < curr_sum
+          curr_largest = curr_sum
+        end
+      end
+      if largest < curr_largest
+        largest = curr_largest
+      end
+    end
+  end
+  
+  largest
+
+end
+
+def has_any_zero(mx_sum, row, col1, col2)
+  sum = mx_sum[row][col2] 
+  total_cols = col2 - col1 + 1
+  return true if sum < total_cols
+end 
+
+def row_sum(sum_mx, row, col2)
+  sum_mx(row, col2)
+end
+
+end
+def create_sum_submarix(mx)
+  rows = mx.size - 1
+  cols = mx[0].size - 1
+  sum_mx = [nil]*rows
+
+  for i in (0..rows)
+    sum_mx << Array.new(cols, nil)
+  end
+
+  for i in (0..rows)
+    sum_mx[i][0] = mx[i][0]
+  end
+
+  for i in (0..rows)
+    for j in (1..cols)
+      if mx[i][j] == 0
+        sum_mx[i][j] = 0
+      else
+        sum[i][j] = sum[i][j-1] + sum[i][j]
+      end
+    end
+  end
+  sum_mx
+end
