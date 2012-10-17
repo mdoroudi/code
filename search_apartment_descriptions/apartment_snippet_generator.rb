@@ -1,4 +1,6 @@
 require 'zlib'
+require 'active_support'
+require 'active_support/inflector'
 
 class TextSnippetGenerator
 
@@ -21,7 +23,7 @@ class TextSnippetGenerator
     hash_str = {}
 
     query_tokens.each do |qt|
-      search_res = doc_tokens.grep(/#{qt}/i) 
+      search_res = search_for_word(qt, doc_tokens)
       search_res.each do |res_item|
         rkey = key(res_item)
         hash_count[rkey] = (hash_count[rkey] || 0) + 1
@@ -36,6 +38,15 @@ class TextSnippetGenerator
   end
 
   private
+
+  # search for the current word and if its not in the document, 
+  # singularize it and search again
+  def search_for_word(word, doc_tokens)
+    s_res = doc_tokens.grep(/#{word}/i) 
+    s_res_singularize = doc_tokens.grep(/#{word.singularize}/i) 
+    search_res = s_res.size >= s_res_singularize.size ? s_res : s_res_singularize
+    search_res
+  end
 
   # sort the results by the line with most hits to be first
   def sort_by_popularity(hash_cnt, hash_res)

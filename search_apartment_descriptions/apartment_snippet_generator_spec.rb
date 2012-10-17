@@ -36,6 +36,12 @@ describe :TextSnippetGenerator do
     it "should return at most MAX_RESULTS number of results" do
       subject.snippets(document, 'parking').size.should eq subject.max_results
     end
+
+    describe :singularize do
+      it "should singularize floors the word if it gets more results out of it" do
+        subject.snippets(document, 'floors').size.should eq 2
+      end
+    end
   end
 
   describe :snippet_paragraph do
