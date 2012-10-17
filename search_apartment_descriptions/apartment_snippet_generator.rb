@@ -2,7 +2,18 @@ require 'zlib'
 
 class TextSnippetGenerator
 
+  MAX_RESULTS = 3
+
   def snippets(document, query)
+    generate_all_snippets(document, query)[0...MAX_RESULTS]
+  end
+
+  def snippet_paragraph(document, query)
+    res_arr = snippets(document, query)
+    res_arr.join("; ")
+  end
+
+  def generate_all_snippets(document, query)
     doc_tokens = document.split(doc_split_regexp)
     query_tokens = query.downcase.split(" ")
 
@@ -17,13 +28,11 @@ class TextSnippetGenerator
         hash_str[rkey] = res_item
       end
     end
-
     sort_by_popularity(hash_count, hash_str)
   end
 
-  def snippet_paragraph(document, query)
-    res_arr = snippets(document, query)
-    res_arr.join("; ")
+  def max_results
+    MAX_RESULTS
   end
 
   private
