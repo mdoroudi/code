@@ -28,8 +28,13 @@ class TextSnippetGenerator
     clean_search_results_and_counts!(explicit_search, hash_count, hash_str, EXPLICIT_SEARCH_INC_FACTOR) 
     
     query_tokens.each do |qt|
+
       search_res = search_for_word(qt, doc_tokens)
-      clean_search_results_and_counts!(search_res, hash_count, hash_str) 
+      synonym_search_res = search_of_many_words(synonyms(qt), doc_tokens)
+      hypernyms_search_res = search_of_many_words(hypernyms(qt), doc_tokens)
+      all_results = search_res + synonym_search_res + hypernyms_search_res
+
+      clean_search_results_and_counts!(all_results, hash_count, hash_str) 
     end
 
     sort_by_popularity(hash_count, hash_str)
@@ -61,12 +66,9 @@ class TextSnippetGenerator
     res
   end
 
-  def all_synonym_results(synonyms, doc_tokens)
-
-  end
-
-  def all_hypernym_results(hypernyms, doc_tokens)
-
+  # given an array words, don't process anything just search the document tokens for the words
+  def search_of_many_words(words, doc_tokens)
+    words.collect {|word| grep_doc(doc_tokens, word) }
   end
 
   # increment factor is so if some search results are more important, for example in 
@@ -86,13 +88,13 @@ class TextSnippetGenerator
   end
 
   def synonyms(word)
-    res = Wordnik.word.get_related(word, :type => 'synonym').first
+    res = Wordnik.word.get_related(word.singularize, :type => 'synonym').first
     res = res["words"] unless res.nil?
     res
   end
 
   def hypernyms(word)
-    res = Wordnik.word.get_related(word, :type => 'hypernym', :use_canonical => true).first
+    res = Wordnik.word.get_related(word.singularize, :type => 'hypernym', :use_canonical => true).first
     res = res["words"] unless res.nil?
     res
   end
