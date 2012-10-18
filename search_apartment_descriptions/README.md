@@ -8,7 +8,7 @@ rake command would give you instruction if you don't pass it anything or if the 
 
 #### How to run:
 ```sh
-$ rake search:snippets query=keywords+seperated+by+plus`
+$ rake search:snippets query=keywords+seperated+by+plus
 ```
 
 #### examples:
