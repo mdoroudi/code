@@ -1,0 +1,26 @@
+require_relative 'apartment_snippet_generator'
+require 'bundler'
+require 'colorize'
+
+task :default => ["print_instruction"] do
+end
+
+task :print_instruction do
+  puts "Insert description of an apartment in the description file and run the following command replaceing keyword with your search query".blue
+  puts "\t rake search:snippets query=keywords".green
+end
+
+namespace :search do
+  task :snippets do
+    tsGenerator = TextSnippetGenerator.new()
+    query = ENV['query']
+    document = File.read('descriptions.txt') 
+    if query.nil? || document.nil? 
+      Rake::Task["default"].invoke
+    else
+      puts tsGenerator.snippet_paragraph(document, query).green
+    end
+  end
+end
+
+

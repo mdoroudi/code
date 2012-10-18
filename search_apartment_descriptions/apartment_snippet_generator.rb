@@ -91,9 +91,16 @@ class TextSnippetGenerator
   end
 
   def hypernyms(word)
-    res = Wordnik.word.get_related(word.singularize, :type => 'hypernym', :use_canonical => true).first
-    res +=  Wordnik.word.get_related(word, :type => 'hypernym', :use_canonical => true).first
-    res.nil? ? [] : res["words"] 
+    if word.singularize == word
+      res = Wordnik.word.get_related(word, :type => 'hypernym', :use_canonical => true).first 
+      res = res.nil? ? [] : res["words"] 
+    else
+      res = Wordnik.word.get_related(word.singularize, :type => 'hypernym', :use_canonical => true).first
+      res = res.nil? ? [] : res["words"] 
+      res_plural += Wordnik.word.get_related(word, :type => 'hypernym', :use_canonical => true).first  
+      res += res.nil? ? [] : res["words"] 
+    end
+    res
   end
 
   def tokenize_query(query)
