@@ -2,7 +2,7 @@ require 'debugger'
 require_relative 'apartment_snippet_generator'
 
 describe :TextSnippetGenerator do 
-  let (:document) { "Our luxury loft-style apartments were constructed as condominiums, so your new residence will have: Solid floors and walls (this will be the quietest apartment you've EVER lived in); Premium stainless steel designer appliances; Distinctive accent walls and hardwood flooring; A kitchen that most chefs would drool over with easy to clean gas stove and countertops; Walk in closets with built in storage; Full size washer and dryer in each apartment home. In addition, all residents will enjoy use of our top-notch amenities, including reserved parking, cutting-edge fitness center, wireless internet cafe/business center, and rooftop lounge to soak up the sun! highly desirable location; two car parking; parking garage; guest parking" }
+  let (:document) { "Our luxury loft-style apartments were constructed as condominiums, so your new residence will have: Solid floors and walls (this will be the quietest apartment you've EVER lived in); Premium stainless steel designer appliances; Distinctive accent walls and hardwood flooring; A kitchen that most chefs would drool over with easy to clean gas stove and countertops; Walk in closets with built in storage; Full size washer and dryer in each apartment home. In addition, all residents will enjoy use of our top-notch amenities, including reserved parking, cutting-edge fitness center, wireless internet cafe/business center, and rooftop lounge to soak up the sun! highly desirable location; two car parking; parking garage; guest parking; beautiful spiral staircase" }
 
   before (:each) do
     @subject = TextSnippetGenerator.new 
@@ -56,6 +56,27 @@ describe :TextSnippetGenerator do
     describe :case_insensitive do
       it "should search case insetive" do
         @subject.snippets(document, 'PARKING GARAGE')[0].should match /parking garage/    
+      end
+    end
+
+    describe :search_using_hypernym do
+      it "should search for hypernym as well" do
+        @subject.stub(:hypernyms).and_return([])
+      end
+
+    end
+
+    describe :search_using_synonyms do
+      it "should search for synonyms as well" do
+        @subject.stub(:synonyms).and_return(%w(caboose kitchen galley))
+        @subject.snippets(document, 'cookroom').size.should eq 1
+      end
+    end 
+
+    describe :search_using_hypernym do
+      it "should use hypernyms for the word to find similar words as well" do
+        @subject.stub(:hypernym).and_return(%w(stairway staircase))
+        @subject.snippets(document, 'spiral stairs').size.should eq 1
       end
     end
   end

@@ -1,7 +1,5 @@
 %w(zlib active_support/inflector active_support).each {|lib| require lib}
-require 'zlib'
-require 'active_support'
-require 'active_support/inflector'
+require_relative 'configuration'
 
 class TextSnippetGenerator
 
@@ -68,7 +66,7 @@ class TextSnippetGenerator
 
   # given an array words, don't process anything just search the document tokens for the words
   def search_of_many_words(words, doc_tokens)
-    words.collect {|word| grep_doc(doc_tokens, word) }
+    words.collect { |word| grep_doc(doc_tokens, word).first }.compact
   end
 
   # increment factor is so if some search results are more important, for example in 
@@ -89,14 +87,13 @@ class TextSnippetGenerator
 
   def synonyms(word)
     res = Wordnik.word.get_related(word.singularize, :type => 'synonym').first
-    res = res["words"] unless res.nil?
-    res
+    res.nil? ? [] : res["words"] 
   end
 
   def hypernyms(word)
     res = Wordnik.word.get_related(word.singularize, :type => 'hypernym', :use_canonical => true).first
-    res = res["words"] unless res.nil?
-    res
+    res +=  Wordnik.word.get_related(word, :type => 'hypernym', :use_canonical => true).first
+    res.nil? ? [] : res["words"] 
   end
 
   def tokenize_query(query)
