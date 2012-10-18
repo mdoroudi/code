@@ -46,6 +46,18 @@ describe :TextSnippetGenerator do
         @subject.snippets(document, 'floors').size.should eq 2
       end
     end
+
+    describe :explicit do
+      it "it should show the explict search first since it has higher rank" do
+        @subject.snippets(document, 'parking garage')[0].should match /parking garage/
+      end
+    end
+
+    describe :case_insensitive do
+      it "should search case insetive" do
+        @subject.snippets(document, 'PARKING GARAGE')[0].should match /parking garage/    
+      end
+    end
   end
 
   describe :snippet_paragraph do
