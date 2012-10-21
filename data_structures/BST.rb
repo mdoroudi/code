@@ -12,10 +12,10 @@ def insert_recursive(treeNode, new_data)
   if treeNode.data.nil?
     treeNode.data = new_data
   elsif treeNode.data > new_data
-    treeNode.left = TreeNode.new() if treeNode.left.nil? 
+    return treeNode.left = TreeNode.new() if treeNode.left.nil? 
     insert_recursive(treeNode.left, new_data)
   else 
-    treeNode.right = TreeNode.new() if treeNode.right.nil? 
+    return treeNode.right = TreeNode.new() if treeNode.right.nil? 
     insert_recursive(treeNode.right, new_data)
   end
 end
