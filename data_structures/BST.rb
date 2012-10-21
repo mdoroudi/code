@@ -12,10 +12,10 @@ def insert_recursive(treeNode, new_data)
   if treeNode.data.nil?
     treeNode.data = new_data
   elsif treeNode.data > new_data
-    return treeNode.left = TreeNode.new() if treeNode.left.nil? 
+    treeNode.left = TreeNode.new() if treeNode.left.nil? 
     insert_recursive(treeNode.left, new_data)
   else 
-    return treeNode.right = TreeNode.new() if treeNode.right.nil? 
+    treeNode.right = TreeNode.new() if treeNode.right.nil? 
     insert_recursive(treeNode.right, new_data)
   end
 end
@@ -84,6 +84,9 @@ def postorder_print(treeNode)
   puts treeNode.data
 end
 
+# we need to return at every stage, because if we don't then first time around
+# it hits 0 and returns from that call, but all the other calls don't return so
+# it keeps calling the other calls and decrement the counter 
 def nth_inorder_node(treeNode, counter)
   # Check left node
   if treeNode.left
@@ -129,6 +132,11 @@ def is_balanced?(treeNode)
   height = height(treeNode)
   min_depth = min_depth(treeNode)
   (height - min_dpth) >= 1
+end
+
+def total_nodes(treeNode)
+  return 0 if treeNode.nil? 
+  return 1 + total_nodes(treeNode.left) + total_nodes(treeNode.right)
 end
 
 # need to write to get the parent of a node, dont' feel like writing it now
@@ -195,7 +203,9 @@ end
 
 treeNode = TreeNode.new(50)
 20.times.each do |i|
-  insert_recursive(treeNode, rand(1..100))
+  val = rand(1..100)
+  puts val
+  insert_recursive(treeNode, val)
 end
 
 class IntegerClass 
@@ -205,8 +215,8 @@ class IntegerClass
   end
 end
 
-#puts "inorder traversal".blue
-#inorder_print(treeNode)
+puts "inorder traversal".blue
+inorder_print(treeNode)
 
 #puts "preorder traversal".blue
 #preorder_print(treeNode)
@@ -227,8 +237,8 @@ end
 #puts "deleting 50".blue
 #puts delete(treeNode, 50)
 
-#puts "5th in order".blue
-#counter = IntegerClass.new(5)
-#puts nth_inorder_node(treeNode, counter)
+puts "5th in order".blue
+counter = IntegerClass.new(5)
+puts nth_inorder_node(treeNode, counter)
 
-puts match(treeNode, treeNode)
+#puts match(treeNode, treeNode)
