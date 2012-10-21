@@ -113,6 +113,8 @@ end
 
 ##### COUNTING SORT #####
 
+# counting_sort:
+# if we know the max element and elemnts are integers and positive, so for floating numbers it won't work
 def counting_sort(array, max)
   return array if array.size < 2 
   positions = Array.new(max + 1, 0) 
@@ -134,6 +136,7 @@ def counting_sort(array, max)
 end
 
 
+# is when we know the range and the items are distributed evenly along that range
 def bucket_sort(array, min, max)
   return array if array.size < 2
 
