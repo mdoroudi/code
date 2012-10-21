@@ -115,6 +115,22 @@ def min(treeNode)
   min(treeNode.left) 
 end
 
+def height(treeNode)
+  return 0 if treeNode.nil?
+  return [height(treeNode.left), height(treeNode.right)].max + 1
+end
+
+def min_depth(treeNode)
+  return 0 if treeNode.nil?
+  return [height(treeNode.left), height(treeNode.right)].min + 1
+end
+
+def is_balanced?(treeNode)
+  height = height(treeNode)
+  min_depth = min_depth(treeNode)
+  (height - min_dpth) >= 1
+end
+
 # need to write to get the parent of a node, dont' feel like writing it now
 def inorder_successor(treeNode, node)
   if node.left
