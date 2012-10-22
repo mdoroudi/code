@@ -65,9 +65,12 @@ def search_string(text, word)
 end
 
 # The matching table:
-# value at index i ( table[i] ) shows if  
+# value at index i ( table[i] ) shows if the index i-1 was a match  
 def build_partial_match_table(word)
-  table = [-1, 0]
+  table = []*word.length
+  table[0] = -1 # if failed at first letter, jump to next letter
+  table[1] = 0  # if the first character matches, and the next one doesn't match we just jump to the next letter there is no where else to go 
+
   i_w = 0 # goes through the word, resets if the word doesn't repeats itself
   i_t = 2 # goes through the match table which is as long as the word, but it keeps going
   w = word.split("")
@@ -87,7 +90,7 @@ def build_partial_match_table(word)
       # so then it checks the next character c in x against next character c in y, and sees they match
       # if we skip this step then we would have start from the begginign of string word
       i_w = table[i_w]
-    else
+    elsif i_w == 0
       # the i_w is 0, means nothing has mapped to the word characters in order so far for this substring
       # for the current i_w it does not match match to word at i_t - 1, means the current character we are looking at (i_t -1)
       # is not the same as index we're looking at in the word (for start is 0)
