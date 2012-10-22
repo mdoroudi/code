@@ -148,7 +148,7 @@ def inorder_successor(treeNode, node)
     end
     return node
   else
-    # return it's parents 
+    # return it's parents if it's larger than the node 
   end
 end
 
@@ -162,7 +162,7 @@ def inorder_predecessor(treeNode, node)
     end
     return node
   else
-    # return it's parent
+    # return it's parent if it's smaller than the node
   end
 
 end
