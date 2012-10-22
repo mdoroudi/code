@@ -54,13 +54,15 @@ end
 # index 1. that way the base case of 1 partition and 1 number makes sense, otherwise
 # we have to do 0 partition and 0 number adn dividing a number to 0 partition is infinity
 # so it won't make sense
-#
-def linear_partition(numbers, total_partitions)
-  numbers = [nil]+numbers
-  total_n = numbers.size
-  
 
-  # creating a prefix so we know for each index if all the numbers from 0..index 
+def linear_partition(seq, total_partitions)
+  return [] if total_partitions <= 0
+
+  seq = [nil]+seq 
+  total_n = seq.size
+   
+
+  # creating a prefix so we know for each index if all the seq from 0..index 
   # where in a partition what would be the cost
   p = []*total_n
   p[0] = 0
@@ -68,20 +70,40 @@ def linear_partition(numbers, total_partitions)
     p[i] = p[i-1] + number[i]
   end
 
-  # we also do total_partitions+1 so we start from index 1 instead of 0
-  cost_matrix = [[]*(total_partitions+1)]*(total_n)
+  cost_matrix = create_linear_partition_table(seq, total_partitions)
 
   # dividers table
   dividers =  [[]*(total_partitions+1)]*(total_n)
 
-  # set the base cases, which are left and bottom edges of the matrix
-  for i in (1..total_n)
-    cost_matrix[i, 1] = p[i]
-  end
-
-  for j in (1..total_partitions)
-    cost_matrix[1, j] = numbers[1]
-  end
-
-
 end
+
+def create_linear_partition_table(seq, k)
+  n = seq.size + 1
+  
+  # we also do total_partitions+1 so we start from index 1 instead of 0
+  cost_table = [[]*(total_partitions+1)]*(n)
+
+  ### set the base cases, which are left and bottom edges of the matrix ###
+
+  # j = 1: cost for partitioning seq to partition of size 1 which is the sum of the current seq
+  for i in (1..n)
+    cost_table[i][1] = p[i]
+  end
+
+  # partitioning first number to 1..j partitions 
+  for j in (1..k)
+    cost_table[1][j] = seq[1]
+  end
+
+  for i in (2..n)
+    for j in (2..k)
+      cost_table[i][j] = [[].max].min 
+    end
+  end
+
+  cost_table
+end
+#example
+
+seq = [1, 8, 2, 3, 5]
+k = 3 
