@@ -1,6 +1,7 @@
 require 'debugger'
 
 # This is the slow but easier O(exponential) solution
+# O 2^(n/2)*2 + extra 
 def fibonacci_recursive(number)
   return 0 if number == 0
   return 1 if number == 1

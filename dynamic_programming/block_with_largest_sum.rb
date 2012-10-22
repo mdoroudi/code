@@ -116,18 +116,21 @@ def largest_submatrix_ones(mx)
  
   for col1 in (0...cols)
     for col2 in (col1+1...cols)
-      curr_largest = nil
-      curr_sum = nil
+      curr_largest = 0
+      curr_sum = 0
 
       row = 0
       while row < rows
-        row += 1 if has_any_zero(sum_mx, row, col1, col2)
-        curr_sum = row_sum(sum_mx, row, col2) + curr_sum
-
-        if curr_largest < curr_sum
-          curr_largest = curr_sum
+        if has_any_zeros?(sum_mx, row, col1, col2)
+          row += 1
+        else
+          curr_sum += row_sum(sum_mx, row, col2) 
+          if curr_largest < curr_sum
+            curr_largest = curr_sum
+          end
         end
       end
+
       if largest < curr_largest
         largest = curr_largest
       end
@@ -138,32 +141,32 @@ def largest_submatrix_ones(mx)
 
 end
 
-def has_any_zero(mx_sum, row, col1, col2)
-  sum = mx_sum[row][col2] 
+def has_any_zeroes?(mx_sum, row, col1, col2)
+  sum = row_sum(mx_sum, row, col1, col2) 
   total_cols = col2 - col1 + 1
   return true if sum < total_cols
 end 
 
-def row_sum(sum_mx, row, col2)
-  sum_mx(row, col2)
+def row_sum(sum_mx, row, col1, col2)
+  sum_mx[row][col2] - sum_mx[row][col1]
 end
 
-end
 def create_sum_submarix(mx)
-  rows = mx.size - 1
-  cols = mx[0].size - 1
+  rows = mx.size
+  cols = mx[0].size + 1
   sum_mx = [nil]*rows
 
   for i in (0..rows)
     sum_mx << Array.new(cols, nil)
   end
 
-  for i in (0..rows)
-    sum_mx[i][0] = mx[i][0]
+  for i in (0...rows)
+    sum_mx[i][0] = 0
+    sum_mx[i][1] = mx[i][0]
   end
 
-  for i in (0..rows)
-    for j in (1..cols)
+  for i in (0...rows)
+    for j in (2...cols)
       if mx[i][j] == 0
         sum_mx[i][j] = 0
       else
