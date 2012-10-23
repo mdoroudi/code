@@ -7,11 +7,11 @@ class Pin(object):
   field_id = Int()
   board_id = Int()
   user_id = Int()
-  img_url = Int()
+  img_url = Unicode()
   is_repin = Int()
   is_video = Int()
-  source = Int()
-  link = Int()
+  source = Unicode()
+  link = Unicode()
 
   def __init__(self, val): 
     self.field_id = val['id']
