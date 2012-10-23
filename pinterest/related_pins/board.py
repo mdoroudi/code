@@ -44,7 +44,7 @@ class Board(object):
         curr_board = store.get(board.Board, item) 
         ratio = Levenshtein.ratio(self.description, curr_board.description) 
         res.append((ratio, curr_board))
-      return res.sort(key=lambda tup: -tup[0])
+      return res.sort(key=lambda tup: tup[0], reverse=True)
 
     
 Board.pins = ReferenceSet(Board.id, pin.Pin.board_id)

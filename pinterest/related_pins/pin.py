@@ -38,15 +38,45 @@ class Pin(object):
   def sibling_pins(self):
     return self.board().pins 
   
-  def same_category_pins(self):
+  def get_related_pins(self):
     similar_baords = self.board().get_similar_baords()
     sibling_pins = self.sibling_pins()
 
     if similar_boards is Node:
-      return sibling_pins
+    	res = []
+      for pin in pins:
+        source_ratio = Levenshtein.ratio(self.source, pin.source)
+        link_ratio = Levenshtein.ratio(self.link, pin.link)
+        res.append((source_ratio, link_ratio, pin.id))
+      res.sort(key=lambda tup: tup[0], reverse=True) 
+      return res
     else
       top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
+      res = []
+      for baord in top_similar_boards:
+      	pins = board[1].pins
+        for pin in pins:
+        	sort_pins_in_related_order
+        	source_ratio = Levenshtein.ratio(self.source, pin.source)
+        	link_ratio = Levenshtein.ratio(self.link, pin.link)
+        	res.append((source_ratio, link_ratio, pin.id))
 
-  def get_related_pins(self):
+    return res.sort(key=lambda tup: tup[0], reverse=True)   
+
+  def sort_pins_in_related_order(self, pins):
+    res = []
+    final_res = []
+
+    for pin in pins:
+      source_ratio = Levenshtein.ratio(self.source, pin.source)
+      link_ratio = Levenshtein.ratio(self.link, pin.link)
+      res.append((source_ratio, link_ratio, pin.id))
+
+    res.sort(key=lambda tup: tup[0], reverse=True)   
+    for tup in res:
+      final_res.append(tup[0])
+
+    return final_res
+
     
 
