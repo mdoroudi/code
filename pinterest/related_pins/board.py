@@ -1,8 +1,13 @@
 from storm.locals import *
-#from pin import Pin
+from pin import Pin
+database = create_database('mysql://root@/pinterest_challenge') 
+store = Store(database)
 
 class Board(object):
   __storm_table__ = 'boards'
+  #pins = ReferenceSet(id, Pin.board_id)
+ 
+
   id = Int(primary=True)
   field_id = Int()
   user_id = Int()
@@ -21,3 +26,4 @@ class Board(object):
     self.description = val['description']
     self.category = val['category']
     
+Board.pins = ReferenceSet(Board.id, Pin.board_id)

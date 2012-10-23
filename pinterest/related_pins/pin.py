@@ -1,5 +1,7 @@
 from storm.locals import *
-#from board import Board
+from board import Board
+database = create_database('mysql://root@/pinterest_challenge') 
+store = Store(database)
 
 class Pin(object):
   __storm_table__ = 'pins'
@@ -12,6 +14,7 @@ class Pin(object):
   is_video = Int()
   source = Unicode()
   link = Unicode()
+  board = store.get(Board, board_id)
 
   def __init__(self, val): 
     self.id = val['id']
@@ -22,5 +25,3 @@ class Pin(object):
     self.is_video = val['is_video']
     self.source = val['source']
     self.link = val['link']
-
-
