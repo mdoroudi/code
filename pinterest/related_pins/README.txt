@@ -13,6 +13,10 @@ Extras:
 - How can you filter out pins of the same / similar images from different sources?
 - How can you extend your algorithm to consider more data, if it were available? For example, the number of repins and likes.
 
+------------------------------------------ Mina Doroudi's work ------------------------------------------
+Github
+https://github.com/mdoroudi/code/tree/master/pinterest/related_pins
+
 
 Get the following packages to get this working:
 

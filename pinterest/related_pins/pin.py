@@ -37,7 +37,7 @@ class Pin(object):
 
   # other pins in the same board as the current pin
   def sibling_pins(self):
-    return self.board().pins 
+    return self.board().pins() 
   
   # takes in list of pin objects
   # return list of pin ids sorted
@@ -67,12 +67,12 @@ class Pin(object):
 
     if similar_boards is Node:
       return get_pin_ids_in_related_order(sibling_pins)[:MAX_RETURN_PINS] 
-    else
+    else:
       top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
       res = []
       for baord in top_similar_boards:
-      	pins = board[1].pins
-      	res.append(sort_pins_in_related_order(pins)) 
+        pins = board[1].pins()
+        res.append(sort_pins_in_related_order(pins)) 
 
     res.sort(key=lambda tup: tup[0], reverse=True)   
     return get_pin_ids_in_related_order(res)[:MAX_RETURN_PINS]
