@@ -16,6 +16,7 @@ class Pin(object):
   source = Unicode()
   link = Unicode()
   MAX_SIMILAR_BAORDS = 50
+  MAX_RETURN_PINS = 100
 
   def __init__(self, val): 
     self.id = val['id']
@@ -38,45 +39,41 @@ class Pin(object):
   def sibling_pins(self):
     return self.board().pins 
   
-  def get_related_pins(self):
-    similar_baords = self.board().get_similar_baords()
-    sibling_pins = self.sibling_pins()
+  # takes in list of pin objects
+  # return list of pin ids sorted
+  def get_pin_ids_in_related_order(self, pins):
+    pin_tuples = sort_pins_in_related_order(self, pins)
+    res = []
+    for tup in pin_tuples:
+      res.append(tup[0])
+    return res
 
-    if similar_boards is Node:
-    	res = []
-      for pin in pins:
-        source_ratio = Levenshtein.ratio(self.source, pin.source)
-        link_ratio = Levenshtein.ratio(self.link, pin.link)
-        res.append((source_ratio, link_ratio, pin.id))
-      res.sort(key=lambda tup: tup[0], reverse=True) 
-      return res
-    else
-      top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
-      res = []
-      for baord in top_similar_boards:
-      	pins = board[1].pins
-        for pin in pins:
-        	sort_pins_in_related_order
-        	source_ratio = Levenshtein.ratio(self.source, pin.source)
-        	link_ratio = Levenshtein.ratio(self.link, pin.link)
-        	res.append((source_ratio, link_ratio, pin.id))
-
-    return res.sort(key=lambda tup: tup[0], reverse=True)   
-
+  # takes in a list of pin objects 
+  # returns list of (source_ration, link_ratio, pin.id) tuples
   def sort_pins_in_related_order(self, pins):
     res = []
-    final_res = []
-
     for pin in pins:
       source_ratio = Levenshtein.ratio(self.source, pin.source)
       link_ratio = Levenshtein.ratio(self.link, pin.link)
       res.append((source_ratio, link_ratio, pin.id))
 
     res.sort(key=lambda tup: tup[0], reverse=True)   
-    for tup in res:
-      final_res.append(tup[0])
+    return res 
 
-    return final_res
 
-    
+  def get_related_pins(self):
+    similar_baords = self.board().get_similar_baords()
+    sibling_pins = self.sibling_pins()
+
+    if similar_boards is Node:
+      return get_pin_ids_in_related_order(sibling_pins)[:MAX_RETURN_PINS] 
+    else
+      top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
+      res = []
+      for baord in top_similar_boards:
+      	pins = board[1].pins
+      	res.append(sort_pins_in_related_order(pins)) 
+
+    res.sort(key=lambda tup: tup[0], reverse=True)   
+    return get_pin_ids_in_related_order(res)[:MAX_RETURN_PINS]
 
