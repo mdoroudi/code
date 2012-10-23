@@ -12,3 +12,12 @@ Extras:
 - Can you make your algorithm fast enough to compute related pins on the fly?
 - How can you filter out pins of the same / similar images from different sources?
 - How can you extend your algorithm to consider more data, if it were available? For example, the number of repins and likes.
+
+
+Get the following packages to get this working:
+
+sudo easy_install pip
+sudo easy_install mysql-python
+pip install storm
+pip install python-levenshtein
+
