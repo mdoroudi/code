@@ -26,4 +26,4 @@ class Pin(object):
     self.link = val['link']
 
   def board(self):
-    store.get(board.Board, self.board_id)
+    return store.get(board.Board, self.board_id)
