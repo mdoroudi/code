@@ -1,4 +1,5 @@
 from storm.locals import *
+import Levenshtein
 import board
 database = create_database('mysql://root@/pinterest_challenge') 
 store = Store(database)
@@ -14,6 +15,7 @@ class Pin(object):
   is_video = Int()
   source = Unicode()
   link = Unicode()
+  MAX_SIMILAR_BAORDS = 50
 
   def __init__(self, val): 
     self.id = val['id']
@@ -27,3 +29,24 @@ class Pin(object):
 
   def board(self):
     return store.get(board.Board, self.board_id)
+
+  # category of the current board which becomes the pins category
+  def category(self):
+    return self.board().category
+
+  # other pins in the same board as the current pin
+  def sibling_pins(self):
+    return self.board().pins 
+  
+  def same_category_pins(self):
+    similar_baords = self.board().get_similar_baords()
+    sibling_pins = self.sibling_pins()
+
+    if similar_boards is Node:
+      return sibling_pins
+    else
+      top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
+
+  def get_related_pins(self):
+    
+
