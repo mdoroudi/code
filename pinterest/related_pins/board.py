@@ -13,7 +13,7 @@ class Board(object):
   category = Unicode()
 
   def __init__(self, val): 
-    self.field_id = val['id']
+    self.id = val['id']
     self.user_id = val['user_id']
     self.username = val['username']
     self.name = val['name']

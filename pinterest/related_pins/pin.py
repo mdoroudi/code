@@ -14,7 +14,7 @@ class Pin(object):
   link = Unicode()
 
   def __init__(self, val): 
-    self.field_id = val['id']
+    self.id = val['id']
     self.board_id = val['board_id']
     self.user_id = val['user_id']
     self.img_url = val['img_url']

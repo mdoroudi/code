@@ -39,6 +39,7 @@ def truncate_before_load(tb_name):
   store.execute("truncate "+tb_name)
 
 # helper function for a given set of json data of type pin or board insert them to db
+# it doesn't insert duplicate values
 def insert_all_pins_or_boards(all_data, class_name):
   counter = 0
   for index, item in enumerate(all_data):
@@ -46,9 +47,11 @@ def insert_all_pins_or_boards(all_data, class_name):
     data = json.loads(item)
 
     if class_name == "pin" :
-      store.add(Pin(data))
+      if store.get(Pin, data['id']) is None:
+        store.add(Pin(data))
     elif class_name == "board" :
-      store.add(Board(data))
+      if store.get(Board, data['id']) is None:
+        store.add(Board(data))
 
     if counter == MAX_INMEMORY :
       store_to_db()
