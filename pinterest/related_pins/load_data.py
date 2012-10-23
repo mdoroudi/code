@@ -28,7 +28,7 @@ def load_pins():
 # load all pins and baords to db
 def load_all_data():
   load_boards()
-  #load_pins()
+  load_pins()
 
 # save all the values in store to db and empty store
 def store_to_db():
