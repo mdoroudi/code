@@ -8,11 +8,6 @@ store = Store(database)
 
 boards_file = open('board_json.txt')
 boards = boards_file.readlines()
-
-data = json.loads(boards[0])
-store.add(Board(data))
-store.commit()
-
 for board in boards:
 	data = json.loads(board)
 	store.add(Board(data))
