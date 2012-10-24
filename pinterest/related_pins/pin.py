@@ -45,7 +45,7 @@ class Pin(object):
     pin_tuples = self.sort_pins_in_related_order(pins)
     res = []
     for tup in pin_tuples:
-      res.append(tup[0])
+      res.append(tup[2])
     return res
 
   # takes in a list of pin objects 
