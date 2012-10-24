@@ -30,6 +30,21 @@ $ pip install storm
 $ pip install python-levenshtein
 ```
 
+Database and tables:
+
+* start/login to mysql server (mysql -u username -p password)
+
+```mysql
+> create database pinterest_challenge
+```
+
+* in the command line run the following to load my mysqldump files
+
+```sh
+$ mysql -uroot pinterest_challenge < boards.sql 
+$ mysql -uroot pinterest_challenge < pins.sql
+```
+
 #### How to run ####
 
 run the following command and when it asks for the id enter a pin id
