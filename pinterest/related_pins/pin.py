@@ -42,7 +42,7 @@ class Pin(object):
   # takes in list of pin objects
   # return list of pin ids sorted
   def get_pin_ids_in_related_order(self, pins):
-    pin_tuples = sort_pins_in_related_order(self, pins)
+    pin_tuples = self.sort_pins_in_related_order(pins)
     res = []
     for tup in pin_tuples:
       res.append(tup[0])
@@ -66,14 +66,14 @@ class Pin(object):
     sibling_pins = self.sibling_pins()
 
     if similar_boards is None:
-      return get_pin_ids_in_related_order(sibling_pins)[:MAX_RETURN_PINS] 
+      return self.get_pin_ids_in_related_order(sibling_pins)[:self.MAX_RETURN_PINS] 
     else:
       top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]
       res = []
       for baord in top_similar_boards:
         pins = board[1].pins
-        res.append(sort_pins_in_related_order(pins)) 
+        res.append(self.sort_pins_in_related_order(pins)) 
 
     res.sort(key=lambda tup: tup[0], reverse=True)   
-    return get_pin_ids_in_related_order(res)[:MAX_RETURN_PINS]
+    return self.get_pin_ids_in_related_order(res)[:self.MAX_RETURN_PINS]
 
