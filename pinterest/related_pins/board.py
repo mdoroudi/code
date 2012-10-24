@@ -46,6 +46,3 @@ class Board(object):
       res.append((ratio, curr_board))
     return res.sort(key=lambda tup: tup[0], reverse=True)
 
-  def pins(self):
-    ReferenceSet(Board.id, pin.Pin.board_id)
-
