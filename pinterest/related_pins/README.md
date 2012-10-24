@@ -32,13 +32,13 @@ $ pip install python-levenshtein
 
 Database and tables:
 
-* start/login to mysql server (mysql -u username -p password)
+* start/login to MySql server (mysql -u username -p password)
 
 ```mysql
 > create database pinterest_challenge
 ```
 
-* in the command line run the following to load my mysqldump files
+* in the shell command line run the following to load my mysqldump files
 
 ```sh
 $ mysql -uroot pinterest_challenge < boards.sql 
