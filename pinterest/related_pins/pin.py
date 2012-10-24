@@ -37,7 +37,10 @@ class Pin(object):
 
   # other pins in the same board as the current pin
   def sibling_pins(self):
-    return self.board().pins
+    res = []
+    for pn in self.board().pins:
+      res.append(pn)
+    return res
   
   # takes in list of pin objects
   # return list of pin ids sorted
@@ -74,7 +77,7 @@ class Pin(object):
         for pn in brd[1].pins:
           res.append(pn)
   
-    return self.get_pin_ids_in_related_order(res)[:self.MAX_RETURN_PINS]
+    return self.get_pin_ids_in_related_order(sbl_pins+res)[:self.MAX_RETURN_PINS]
 
   def levenshtein_ratio(self, str1, str2):
     if str1 is None or str1 == '' or str2 is None or str2 == '':
