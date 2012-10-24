@@ -13,7 +13,7 @@ Extras:
 - How can you filter out pins of the same / similar images from different sources?
 - How can you extend your algorithm to consider more data, if it were available? For example, the number of repins and likes.
 
------------------------------------------- Mina Doroudi's work ------------------------------------------
+--------------------------- Mina Doroudi's work ---------------------------
 Github
 https://github.com/mdoroudi/code/tree/master/pinterest/related_pins
 
@@ -96,8 +96,39 @@ Then we can run python get_related_pins.py and give it a pin and it'll give us b
 
     get_pin_ids_in_related_order:
       all this class does it, take a list of pins again, pass them to sort_pins_in_related_order and get
-      the result, adn from there get the pin_id only and put them in an array adn return it. 
+      the result, and from there get the pin_id only and put them in an array adn return it. 
+
+EXTRA CREDIT SOLUTION
+- Can you make your algorithm fast enough to compute related pins on the fly?
+  we can use a caching server, for example Memcache to save the related pins.
+  So to do that we can have a large cache for every category and cache new pins as they come in there.
+  In pinterst the categories are set, so they are more clear than the categories in the json file.
+  also under each category we can have their own subcategory and caceh based on that.
+  for example we know the category is based on animal and if in the pin, or booard description or based on the url we can identify
+  sometimes what kind of animal they are and then we can cache based on that. Ad people pin new items we cache them in their categories.
+  and it's a LRU cache so any item that has not been pind recently as the cache gets full, it comes out of the cache.
+  since we have a lot of data, we don't want ot search on mysql, we want to index everything in our cache servers and serve from there.
+
+- How can you filter out pins of the same / similar images from different sources?
+  first we can just look at the img_url, this usually gives us where it's been uploaded. so the imag can be embeded in multiple sites
+  through a url so that is the easiest way to see if an image is exactly the same as the other.
+  After that we can use image pattern matching. so if bits of the images in different areas are the same the images could be more similar
+
+- How can you extend your algorithm to consider more data, if it were available? For example, the number of repins and likes.
+  So first of all, I think the easiest way is, lets say pinterst usuall recommand 5 images when you pin an image. We want to make
+  sure we recommand popular images so user clicks on them. So we can change our ranking to look at likes and repins and show those first.
+  also everytime I pin something I get a new pin_id for that (at least that's what i see in teh site) so if we could see where the image is
+  being repinned from we could also identify the same pins
+  we could also lets say there are some really popular travel image sites or blugs (not flickr, maybe flick user) then when someone pins something
+  from those sites or pin something that goes back to those sites from prev repins, we can pick the most popular pins based on likes and votes and
+  recommand them to people
+
+I hope you liked my code, I'm coming from a ruby background, so If part of my code doesn't look great for python, that is the reason why. 
+This is pretty much my first real python program! :)
+
+
+Mina Doroudi
+10-23-2012
+
 
   
-  
-
