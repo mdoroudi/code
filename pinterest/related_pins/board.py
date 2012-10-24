@@ -34,7 +34,7 @@ class Board(object):
 
 
   # for all the board in the same category order them by Levenshtein ratio
-  def get_similar_baords(self):
+  def get_similar_boards(self):
     ids = self.same_category_boards_ids()
     if ids is None:
       return None

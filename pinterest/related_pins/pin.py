@@ -53,8 +53,8 @@ class Pin(object):
   def sort_pins_in_related_order(self, pins):
     res = []
     for pin in pins:
-      source_ratio = Levenshtein.ratio(self.source, pin.source)
-      link_ratio = Levenshtein.ratio(self.link, pin.link)
+      source_ratio = self.levenshtein_ratio(self.source, pin.source)
+      link_ratio = self.levenshtein_ratio(self.link, pin.link)
       res.append((source_ratio, link_ratio, pin.id))
 
     res.sort(key=lambda tup: tup[0], reverse=True)   
@@ -62,17 +62,22 @@ class Pin(object):
 
 
   def get_related_pins(self):
-    similar_boards = self.board().get_similar_baords()
+    similar_boards = self.board().get_similar_boards()
     sibling_pins = self.sibling_pins()
     if similar_boards is None:
       return self.get_pin_ids_in_related_order(sibling_pins)[:self.MAX_RETURN_PINS] 
     else:
       top_similar_boards = similar_boards[:self.MAX_SIMILAR_BAORDS]
       res = []
-      for baord in top_similar_boards:
-        pins = board[1].pins
+      for brd in top_similar_boards:
+        pins = brd[1].pins
         res.append(self.sort_pins_in_related_order(pins)) 
 
     res.sort(key=lambda tup: tup[0], reverse=True)   
     return self.get_pin_ids_in_related_order(res)[:self.MAX_RETURN_PINS]
 
+  def levenshtein_ratio(self, str1, str2):
+    if str1 is None or str1 == '' or str2 is None or str2 == '':
+      return 0
+    else:
+       Levenshtein.ratio(str1, str2)
