@@ -25,3 +25,79 @@ sudo easy_install mysql-python
 pip install storm
 pip install python-levenshtein
 
+
+HOW TO RUN:
+run the following command and when it asks for the id enter a pin id
+python get_related_pins.py
+
+
+My solution:
+
+Libraries I'm using:
+Storm: ORM solution
+Levenshtein: Finding the Levenshtein distance between strings.
+
+First load all the data into pinterest_challenge database, the tables are baords and pins
+  $ python load_data.py
+
+  this process loads all the pins into the pin table and boards into the board table. it avoid enterering duplicates in the table. 
+  so from now on we don't have to worry about duplicates.
+  this process loads data 10k at a time. The reason is othewise it has to read all the data at once and the memory would get full 
+  and we run out of memory. Even though Boards are 10k in total I put the limit on those as well, in case we decide to have a lot of 
+  boards.
+  we also truncate all the tables before reinsurint the data, so anything in them would get lost.
+
+
+Then we can run python get_related_pins.py and give it a pin and it'll give us back the top 100, related pins
+  $ python get_related_pins.py
+
+  this file is pretty much a wrapper around pin.py and baord.py
+  it takes the pin_id from the user and gets all the related pins and return their total + the actual pin_ids
+  Since I'm not too familiar with python I couldn't get to terminate cleanly if user enters a bad pin_id (string).
+  
+  the main files here are
+
+  board.py
+    this is the class wrapper around the database table boards. I used Storm to do that. Also we have a 
+    many-to-one relationship from pins to boards. So each board has many pins and each pin has one Board.
+    I had to specify that in get_related_pins.py, because otherwise I was getting circular import problems. 
+    I'm sure there is a better way to do this, but I'm not too familiar with python.
+
+    same_category_boards_ids:
+      this method looks at the category versions of all hte boards in our db and return the one with the same category as self.
+
+    get_similar_boards:
+      this is the main class, to be used by pins.
+      it gets all the boards in the same category, and for all of them look at their description, and create a levenshtein ratio for
+      self.description over board.description. also if the boards don't have description it sets the levenshtein ratio as 0.
+      then it sort them from highest to lowers levenshtein ratio and return them.
+
+  pin.py
+    this is the class wrapper around pins table. where each pin belongs to a board.
+    
+    board():
+      this method return the board object for this pin
+  
+    category:
+      retursn the category of the board I belong to
+
+    get_related_pins:
+      this is the main class
+      for each pin the related pins are the pins in it's own board + pins coming from get_similar_boards above.
+      then for all those pins, I check their source url and link and do a levenshtein ratio with the current pin.
+      pretty much the same as boards, then sort them in the decreasing order. 
+      I sort them based on source and then link ratio. 
+      here I set the max_pins to be returned to be a 100 (MAX_RETURN_PINS) 
+
+    sort_pins_in_related_order: 
+      method used by get_related_pins, it takes in a list of pins and returns a list of 3-item tuples
+      where the tuples are (source_ratio, link_ratio, pin_id) and then sort them based on the first and 
+      second item in the tuple
+
+    get_pin_ids_in_related_order:
+      all this class does it, take a list of pins again, pass them to sort_pins_in_related_order and get
+      the result, adn from there get the pin_id only and put them in an array adn return it. 
+
+  
+  
+
