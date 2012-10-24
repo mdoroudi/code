@@ -63,17 +63,16 @@ class Pin(object):
 
   def get_related_pins(self):
     similar_boards = self.board().get_similar_boards()
-    sibling_pins = self.sibling_pins()
+    sbl_pins = self.sibling_pins()
     if similar_boards is None:
-      return self.get_pin_ids_in_related_order(sibling_pins)[:self.MAX_RETURN_PINS] 
+      return self.get_pin_ids_in_related_order(sbl_pins)[:self.MAX_RETURN_PINS] 
     else:
       top_similar_boards = similar_boards[:self.MAX_SIMILAR_BAORDS]
       res = []
       for brd in top_similar_boards:
-        pins = brd[1].pins
-        res = res + self.sort_pins_in_related_order(pins) 
+        for pn in brd[1].pins:
+          res.append(pn)
   
-    res.sort(key=lambda tup: tup[0], reverse=True)   
     return self.get_pin_ids_in_related_order(res)[:self.MAX_RETURN_PINS]
 
   def levenshtein_ratio(self, str1, str2):
