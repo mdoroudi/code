@@ -71,8 +71,8 @@ class Pin(object):
       res = []
       for brd in top_similar_boards:
         pins = brd[1].pins
-        res.append(self.sort_pins_in_related_order(pins)) 
-
+        res = res + self.sort_pins_in_related_order(pins) 
+  
     res.sort(key=lambda tup: tup[0], reverse=True)   
     return self.get_pin_ids_in_related_order(res)[:self.MAX_RETURN_PINS]
 
@@ -80,4 +80,4 @@ class Pin(object):
     if str1 is None or str1 == '' or str2 is None or str2 == '':
       return 0
     else:
-       Levenshtein.ratio(str1, str2)
+      return Levenshtein.ratio(str1, str2)
