@@ -65,55 +65,55 @@ Then we can run python get_related_pins.py and give it a pin and it'll give us b
   
   the main files here are
 
-  `board.py`
+`board.py`
 
-  this is the class wrapper around the database table boards. I used Storm to do that. Also we have a 
-  many-to-one relationship from pins to boards. So each board has many pins and each pin has one Board.
-  I had to specify that in get_related_pins.py, because otherwise I was getting circular import problems. 
-  I'm sure there is a better way to do this, but I'm not too familiar with python.
+this is the class wrapper around the database table boards. I used Storm to do that. Also we have a 
+many-to-one relationship from pins to boards. So each board has many pins and each pin has one Board.
+I had to specify that in get_related_pins.py, because otherwise I was getting circular import problems. 
+I'm sure there is a better way to do this, but I'm not too familiar with python.
 
-    `same_category_boards_ids:`
+`same_category_boards_ids:`
 
-      this method looks at the category versions of all hte boards in our db and return the one with the same category as self.
+this method looks at the category versions of all hte boards in our db and return the one with the same category as self.
 
-    `get_similar_boards:`
+`get_similar_boards:`
 
-      this is the main class, to be used by pins.
-      it gets all the boards in the same category, and for all of them look at their description, and create a levenshtein ratio for
-      self.description over board.description. also if the boards don't have description it sets the levenshtein ratio as 0.
-      then it sort them from highest to lowers levenshtein ratio and return them.
+this is the main class, to be used by pins.
+it gets all the boards in the same category, and for all of them look at their description, and create a levenshtein ratio for
+self.description over board.description. also if the boards don't have description it sets the levenshtein ratio as 0.
+then it sort them from highest to lowers levenshtein ratio and return them.
 
-  `pin.py`
+`pin.py`
 
-    this is the class wrapper around pins table. where each pin belongs to a board.
-    
-    `board():`
-    
-      this method return the board object for this pin
-  
-    `category:`
+this is the class wrapper around pins table. where each pin belongs to a board.
 
-      retursn the category of the board I belong to
+`board():`
 
-    `get_related_pins:`
+this method return the board object for this pin
 
-      this is the main class
-      for each pin the related pins are the pins in it's own board + pins coming from get_similar_boards above.
-      then for all those pins, I check their source url and link and do a levenshtein ratio with the current pin.
-      pretty much the same as boards, then sort them in the decreasing order. 
-      I sort them based on source and then link ratio. 
-      here I set the max_pins to be returned to be a 100 (MAX_RETURN_PINS) 
+`category:`
 
-    `sort_pins_in_related_order:` 
+retursn the category of the board I belong to
 
-      method used by get_related_pins, it takes in a list of pins and returns a list of 3-item tuples
-      where the tuples are (source_ratio, link_ratio, pin_id) and then sort them based on the first and 
-      second item in the tuple
+`get_related_pins:`
 
-    `get_pin_ids_in_related_order:`
+this is the main class
+for each pin the related pins are the pins in it's own board + pins coming from get_similar_boards above.
+then for all those pins, I check their source url and link and do a levenshtein ratio with the current pin.
+pretty much the same as boards, then sort them in the decreasing order. 
+I sort them based on source and then link ratio. 
+here I set the max_pins to be returned to be a 100 (MAX_RETURN_PINS) 
 
-      all this class does it, take a list of pins again, pass them to sort_pins_in_related_order and get
-      the result, and from there get the pin_id only and put them in an array adn return it. 
+`sort_pins_in_related_order:` 
+
+method used by get_related_pins, it takes in a list of pins and returns a list of 3-item tuples
+where the tuples are (source_ratio, link_ratio, pin_id) and then sort them based on the first and 
+second item in the tuple
+
+`get_pin_ids_in_related_order:`
+
+all this class does it, take a list of pins again, pass them to sort_pins_in_related_order and get
+the result, and from there get the pin_id only and put them in an array adn return it. 
 
 #### EXTRA CREDIT SOLUTION ####
 
