@@ -1,6 +1,7 @@
 from storm.locals import *
 import Levenshtein
 import pin
+
 database = create_database('mysql://root@/pinterest_challenge') 
 store = Store(database)
 
@@ -29,7 +30,6 @@ class Board(object):
     if self.category is None:
       return None
     else:
-      #return the first 50
       return store.execute(Select(Board.id, Board.category == self.category)).get_all()
 
 
@@ -40,8 +40,8 @@ class Board(object):
       return None
 
     res = []
-    for item in ids:
-      curr_board = store.get(Board, item) 
+    for b_id in ids:
+      curr_board = store.get(Board, b_id[0]) 
       curr_desc = curr_board.description or ''
       self_desc = self.description or ''
       if self_desc == '' or curr_desc ==  '': 
@@ -49,5 +49,6 @@ class Board(object):
       else:
         ratio = Levenshtein.ratio(self.description, curr_board.description) 
       res.append((ratio, curr_board))
-    return res.sort(key=lambda tup: tup[0], reverse=True)
+    res.sort(key=lambda tup: tup[0], reverse=True)
+    return res 
 
