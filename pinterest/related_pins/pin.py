@@ -62,10 +62,10 @@ class Pin(object):
 
 
   def get_related_pins(self):
-    similar_baords = self.board().get_similar_baords()
+    similar_boards = self.board().get_similar_baords()
     sibling_pins = self.sibling_pins()
 
-    if similar_boards is Node:
+    if similar_boards is None:
       return get_pin_ids_in_related_order(sibling_pins)[:MAX_RETURN_PINS] 
     else:
       top_similar_boards = similar_boards[:MAX_SIMILAR_BAORDS]

@@ -30,7 +30,7 @@ class Board(object):
       return None
     else:
       #return the first 50
-      return store.execute(Select(board.Board.id, board.Board.category == self.category)).get_all()
+      return store.execute(Select(Board.id, Board.category == self.category)).get_all()
 
 
   # for all the board in the same category order them by Levenshtein ratio
@@ -41,8 +41,13 @@ class Board(object):
 
     res = []
     for item in ids:
-      curr_board = store.get(board.Board, item) 
-      ratio = Levenshtein.ratio(self.description, curr_board.description) 
+      curr_board = store.get(Board, item) 
+      curr_desc = curr_board.description or ''
+      self_desc = self.description or ''
+      if self_desc == '' or curr_desc ==  '': 
+        ratio = 0 
+      else:
+        ratio = Levenshtein.ratio(self.description, curr_board.description) 
       res.append((ratio, curr_board))
     return res.sort(key=lambda tup: tup[0], reverse=True)
 
