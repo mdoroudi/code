@@ -57,10 +57,11 @@ class Pin(object):
       link_ratio = self.levenshtein_ratio(self.link, pin.link)
       res.append((source_ratio, link_ratio, pin.id))
 
-    res.sort(key=lambda tup: tup[0], reverse=True)   
+    sorted(res, key=lambda tup: (tup[0], tup[1]))
     return res 
 
 
+  # main function
   def get_related_pins(self):
     similar_boards = self.board().get_similar_boards()
     sbl_pins = self.sibling_pins()

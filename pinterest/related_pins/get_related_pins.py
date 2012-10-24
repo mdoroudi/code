@@ -13,5 +13,7 @@ def get_related_pins():
   if pin is None: 
     print "Sorry! The pin_id '"+str(pin_id)+"' does not exist in our database, enter another pi_id."
   else:
-    print pin.get_related_pins()
+    res = pin.get_related_pins()
+    print "Found "+str(len(res))+" related pins!"
+    print res 
 get_related_pins()
