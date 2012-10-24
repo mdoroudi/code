@@ -16,7 +16,7 @@ class Pin(object):
   source = Unicode()
   link = Unicode()
   MAX_SIMILAR_BAORDS = 50
-  MAX_RETURN_PINS = 100
+  MAX_RETURN_PINS = 101
 
   def __init__(self, val): 
     self.id = val['id']
