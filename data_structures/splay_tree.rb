@@ -18,9 +18,9 @@ def splay(node, root)
     return 
   elsif node.parent == root 
     if root.left == node
-      right_rotate(node, parent)
+      right_rotate(node.parent, node.parent)
     else
-      left_rotate(node, parent)
+      left_rotate(node.parent, node.parent)
     end
   else
     p = node.parent
