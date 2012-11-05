@@ -81,10 +81,24 @@ int rand_between(int first, int last) {
   return (rand()%range_size)+first;
 }
 
+class ScopeThing {
+  public:
+    ScopeThing() {
+      cout << "ScopeThing created!" << endl;
+    }
+    ~ScopeThing() {
+      cout << "ScopeThing destroyed!" << endl;
+    }
+};
+
+void print_array_3x5(int arr[3][5]) {
+  cout << "In print_array_3x5" << endl;
+}
+
 int main(int argc, char** argv) {
   int rows = 3;
   int cols = 5;
-  //int arr[rows][cols] = {{1,2,3,0,4}, {1,0,3,5,6}, {0,1,0,2,1}};
+  int arr[3][5] = {{1,2,3,0,4}, {1,0,3,5,6}, {0,1,0,2,1}};
 
   vector<int> vec(3, 0);
   vector< vector<int> > matrix(4, vec);
@@ -95,5 +109,13 @@ int main(int argc, char** argv) {
   set_rows_cols_to_zero_v(matrix);
   print_matrix(matrix);
 
+  int** evan = new int*[3];
+  for(int i=0; i<3; ++i) {
+    ScopeThing s;
+    evan[i] = new int[5];
+  }
+
+  cout << typeid(arr).name() << endl;
+  print_array_3x5(arr);
 }
   
