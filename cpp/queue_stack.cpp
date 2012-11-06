@@ -53,17 +53,19 @@ class ThreeStack {
   public:
 
     ThreeStack() 
-      :each_stack_size(10)
+      :each_stack_size(10), start_index(3), end_index(3), curr_index(3)
     {
-      vector<int> m_stack(each_stack_size*3);
+      m_stack.resize(each_stack_size*3);
       
-      int start_i[] = {0, each_stack_size, each_stack_size*2};
-      vector<int> start_index(start_i, start_i+3);
+      start_index[0] = 0;
+      start_index[1] = each_stack_size;
+      start_index[2] = each_stack_size*2;
 
-      int end_i[] = {each_stack_size-1, each_stack_size*2-1, each_stack_size*3-1};
-      vector<int> end_index(end_i, end_i+3);
+      end_index[0] = each_stack_size - 1;
+      end_index[1] = each_stack_size*2 - 1;
+      end_index[2] = each_stack_size*3 - 1;
 
-      vector<int> curr_index(start_index);
+      curr_index = start_index;
     }
 
     void push(int stack_n, int value) {
@@ -75,6 +77,7 @@ class ThreeStack {
         m_stack[curr_index[stack_n]] = value;
         curr_index[stack_n]++;
       }
+
     }
 
     int pop(int stack_n) {
@@ -87,20 +90,35 @@ class ThreeStack {
     }
 
     void print_stacks() {
+
       cout << "stack 1: ";
-      for (int i = 0; i < curr_index[0]; i++)
-        cout << m_stack[curr_index[0]] << " ";
+      for (int i = start_index[0]; i < curr_index[0]; i++)
+        cout << m_stack[i] << " ";
       cout << endl;
 
       cout << "stack 2: ";
-      for (int i = 0; i < curr_index[1]; i++)
-        cout << m_stack[curr_index[1]] << " ";
+      for (int i = start_index[1]; i < curr_index[1]; i++)
+        cout << m_stack[i] << " ";
       cout << endl;
       
       cout << "stack 3: ";
-      for (int i = 0; i < curr_index[2]; i++)
-        cout << m_stack[curr_index[2]] << " ";
+      for (int i = start_index[2]; i < curr_index[2]; i++)
+        cout << m_stack[i] << " ";
       cout << endl;
+
+      cout << "total size: " << m_stack.size() << endl;
+    }
+
+    void print_start_indecies() {
+      print_indecies("start indecies", start_index);
+    }
+
+    void print_end_indecies() {
+      print_indecies("end indecies", end_index);
+    }
+
+    void print_curr_indecies() {
+      print_indecies("curr indecies", curr_index);
     }
 
   private:
@@ -109,6 +127,11 @@ class ThreeStack {
     vector<int> end_index;
     vector<int> curr_index;
     int each_stack_size;
+
+
+    void print_indecies(const string& opening, vector<int>& vec) {
+      cout << opening << ": " << vec[0] << " " << vec[1] << " " << vec[2] << endl;
+    }
 
     void resize_stack() {
       m_stack.resize(m_stack.size()*2);
@@ -130,7 +153,34 @@ class ThreeStack {
     }
 };
 
-int main() {
+void three_stack_test() {
   ThreeStack* my_stack = new ThreeStack();
   my_stack->print_stacks();
+
+  int one = 0;
+  int two = 1;
+  int three = 2;
+  my_stack->push(one, 1);
+  my_stack->push(one, 12);
+  my_stack->push(one, 11);
+  my_stack->push(one, 21);
+  
+  my_stack->push(two, 12);
+  my_stack->push(two, 102);
+  my_stack->push(two,100);
+  my_stack->push(two,10);
+
+  my_stack->push(three, 10);
+
+  my_stack->print_stacks();
+  
+  my_stack->pop(three);
+  my_stack->pop(two);
+  my_stack->pop(three);
+
+  my_stack->print_stacks();
+}
+
+int main() {
+  three_stack_test();
 }
