@@ -132,4 +132,5 @@ class ThreeStack {
 
 int main() {
   ThreeStack* my_stack = new ThreeStack();
+  my_stack->print_stacks();
 }
