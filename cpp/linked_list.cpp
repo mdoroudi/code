@@ -199,6 +199,32 @@ void remove_duplicates(LLNode* ll) {
   }
 }
 
+
+LLNode* find_intersection(LLNode* l1, LLNode* l2) {
+  int l1_length = length(l1);
+  int l2_length = length(l2);
+  int diff = l1_length - l2_length;
+  
+  if (diff > 0) {
+    while(diff != 0 ) {
+      l1 = l1->next;
+      diff--;
+    }
+  } else {
+    while(diff != 0) {
+      l2 = l2->next;
+      diff++;
+    }
+  }
+
+  while (l1 != l2 && l1) {
+    l1 = l1->next;
+    l2 = l2->next;
+  }
+  return l1;
+
+}
+
 LLNode* swap_consecutive_elements(LLNode* ll) {
   if (ll == NULL || ll->next == NULL)
     return ll;
@@ -210,19 +236,44 @@ LLNode* swap_consecutive_elements(LLNode* ll) {
   }
 }
 
+LLNode* create_intersecting_lists(LLNode* first_list) {
+
+  int intersection_data[] = {30, 40, 50};
+  int data2[] = {11,12,14};
+
+  LLNode* ll2 = create_a_linked_list(data2, 3);
+  LLNode* ll_intsc = create_a_linked_list(intersection_data, 3);
+  
+  LLNode* ll2_tail = find_nth_node_to_the_last(ll2, 0);
+  LLNode* first_list_tail = find_nth_node_to_the_last(first_list, 0);
+
+  ll2_tail->next = ll_intsc;
+  first_list_tail->next = ll_intsc;
+    
+  return ll2;
+}
+
 int main() {
   int data[] = {1,2,3,4,5, 6, 7, 7};
   LLNode* ll = create_a_linked_list(data, 8); 
-  print_linked_list(ll);
+  
+
+  //print_linked_list(ll);
   //ll = reverse(ll);
   //print_linked_list(ll);
-  print_linked_list(delete_node(ll, 3));
-  cout << "linked list length: " <<length(ll) << endl;
-  cout << "0th to the last node: "<< find_nth_to_the_last(ll, 0) << endl;
+  //print_linked_list(delete_node(ll, 3));
+  //cout << "linked list length: " <<length(ll) << endl;
+  //cout << "0th to the last node: "<< find_nth_to_the_last(ll, 0) << endl;
   //cout << "removed duplicates ll: ";
   //remove_duplicates(ll);
   //print_linked_list(ll);
   //ll = rotate_k_times(ll, 14);
-  swap_consecutive_elements(ll);
+  //swap_consecutive_elements(ll);
+  //print_linked_list(ll);
+
+  LLNode* ll2 = create_intersecting_lists(ll);
+  print_linked_list(ll2);
   print_linked_list(ll);
+  
+  cout << "intersecting data is: " << find_intersection(ll2, ll)->data << endl;
 }

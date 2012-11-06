@@ -46,6 +46,12 @@ void set_rows_cols_to_zero_v(vector<vector<int> >& matrix) {
 
 }
 
+void my_swap(int* index_1, int* index_2) {
+  int tmp = *index_1;
+  *index_1 = *index_2;
+  *index_2 = tmp;
+}
+
 void set_row_to_zero(vector< vector<int> >& matrix, int row_index) {
   for(int j = 0; j < matrix[0].size(); j++) {
     matrix[row_index][j] = 0;
@@ -117,5 +123,13 @@ int main(int argc, char** argv) {
 
   cout << typeid(arr).name() << endl;
   print_array_3x5(arr);
+
+  
+  int data[] = {2,3,4,5};
+  vector<int> oneD (data, data+4);
+  print_vector(oneD);
+  my_swap(&oneD[1], &oneD[2]);
+  print_vector(oneD);
+
 }
   
