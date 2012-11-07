@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <stack>
 using namespace std;
 
-using std::cout;
-using std::endl;
+
 
 class Stack {
   public:
@@ -153,6 +153,88 @@ class ThreeStack {
     }
 };
 
+class StackWithMin {
+  public:
+    int pop() {
+      if (!m_stack.empty()) {
+        int val = m_stack.top();
+        m_stack.pop();
+        if (min() == val) 
+          min_stack.pop();
+        return val;
+      }
+
+      return -1;
+    }
+
+    void push(int value) {
+      m_stack.push(value);
+      if (min() >= value) {
+        min_stack.push(value);
+      }
+    }
+
+    void top() {
+      m_stack.top();
+    }
+
+    int min() {
+      if (min_stack.empty())
+        return numeric_limits<int>::max();
+      else 
+        return min_stack.top();
+    }
+
+  private:
+    stack <int> m_stack;
+    stack <int> min_stack;
+};
+
+class SetOfStacks {
+  private:
+    stack< stack<int>* > m_stacks;
+    static const size_t MAX_SIZE = 3;
+    int total_size;
+
+  public:
+    SetOfStacks() 
+    {
+      m_stacks.push(new stack<int>());
+      total_size = 0;
+    }
+
+    int stack_size() {
+      return total_size;
+    }
+
+    void push(int value) {
+      if (m_stacks.top()->size() < MAX_SIZE) {
+        m_stacks.top()->push(value);
+      } else {
+        m_stacks.push(new stack<int>());
+        m_stacks.top()->push(value);
+      }
+      total_size++;
+    } 
+
+    void pop() {
+      if (!m_stacks.empty()) {
+        m_stacks.top()->pop();
+        total_size--;
+        if (m_stacks.top()->empty() && total_size != 0) {
+          m_stacks.pop();
+        }
+      }
+    }
+
+    const int& top() {
+      if (!m_stacks.empty()) {
+        return m_stacks.top()->top();
+      }
+      return m_stacks.top()->top();
+    }
+};
+
 void three_stack_test() {
   ThreeStack* my_stack = new ThreeStack();
   my_stack->print_stacks();
@@ -181,6 +263,43 @@ void three_stack_test() {
   my_stack->print_stacks();
 }
 
+void test_stack_with_min() {
+  StackWithMin* my_stack = new StackWithMin();
+  
+  cout << my_stack->min() << endl;
+  my_stack->push(10);
+  my_stack->push(1);
+  my_stack->push(2);
+  my_stack->push(1);
+  my_stack->push(0);
+
+  cout << my_stack->min() << endl;
+  my_stack->pop();
+  my_stack->pop();
+
+  cout << my_stack->min() << endl;
+}
+
+void test_set_of_stacks() {
+  SetOfStacks* my_stack = new SetOfStacks();
+  my_stack->push(1);
+  my_stack->push(31);
+  my_stack->push(13);
+  my_stack->push(12);
+  my_stack->push(30);
+  int size = my_stack->stack_size();
+  cout << "stack size is: " << size << endl;
+  while(my_stack->stack_size()) {
+    cout << my_stack->top() << " ";
+    my_stack->pop();
+  }
+  my_stack->push(22);
+  cout << my_stack->top();
+  cout << endl;
+}
+
 int main() {
-  three_stack_test();
+  //three_stack_test();
+  //test_stack_with_min();
+  test_set_of_stacks();
 }
