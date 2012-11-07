@@ -235,6 +235,34 @@ class SetOfStacks {
     }
 };
 
+class QUsingStacks {
+  private: 
+    stack<int> stack1;
+    stack<int> stack2;
+    
+    void enQeue(int val) {
+      stack2.push(val);
+    }
+
+    int deQeue() 
+    {
+      if (stack2.empty()) {
+        while (!stack1.empty()) {
+          val = stack1.top();
+          stack2.push(val);
+          stack1.pop();
+        }
+      }
+      val = stack2.top();
+      stack2.pop();
+      return val;
+    }
+
+    int size() {
+      return stack1.size() + stack2.size();
+    }
+}
+
 void three_stack_test() {
   ThreeStack* my_stack = new ThreeStack();
   my_stack->print_stacks();
