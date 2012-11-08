@@ -45,3 +45,44 @@ class DynamicProgramming
 
 end
 
+# Find the largest possible difference in an array of integers, such that the smaller integer occurs earlier in the array. 
+def largest_difference(arr)
+  max = -1
+  i1 = -1
+  i2 = -1
+
+  for i in (1...arr.size)
+    j = i - 1
+    while j >= 0
+      diff = arr[i] - arr[j]
+      if diff > max
+        max = diff
+        i1 = j
+        i2 = i
+      end
+      j -= 1
+    end
+  end
+  return [max, i1, i2]
+end
+
+def largest_difference_speedy(arr)
+  max = -(1.0/0) 
+  curr_min = 1.0/0
+  i1 = -1
+  i2 = -1
+  for i in (1...arr.size)
+    j = i-1
+    curr_min = [curr_min, arr[j]].min
+    diff = arr[i] - curr_min
+    if diff >= 0 && max <= diff 
+      max = diff
+      i2 = i
+      i1 = (curr_min == arr[j]) ? j : i1
+    end
+  end
+  return [max, i1, i2]
+end
+
+puts largest_difference([10,9,8]).to_s
+puts largest_difference_speedy([10,9, 8]).to_s
