@@ -120,6 +120,7 @@ def preorder_print_itr(treeNode)
       end
     end
   end
+
 end
 
 
@@ -137,15 +138,26 @@ def postorder_print_itr(treeNode)
   while !stack.empty?
     curr = stack.last
 
+    # traversing down the tree
     if !prev || prev.left == curr || prev.right == curr 
       if curr.left
         stack.push(curr.left)
       elsif curr.right
         stack.push(curr.right) 
+      else
+        puts curr.data
+        stack.pop()
       end
+    #traversing up the tree from left
     elsif curr.left == prev
-      stack.push(curr.right) if curr.right
-    else
+      if curr.right
+        stack.push(curr.right) 
+      else
+        puts curr.data
+        stack.pop
+      end
+    #traversing up the tree from right
+    elsif curr.right == prev
       puts curr.data
       stack.pop()
     end
@@ -291,9 +303,13 @@ end
 
 
 treeNode = TreeNode.new(50)
-20.times.each do |i|
-  val = rand(1..100)
-  puts val
+#20.times.each do |i|
+  #val = rand(1..100)
+  #puts val
+  #insert_recursive(treeNode, val)
+#end
+vals = [10, 9, 8, 6,4, 2,1,11, 13, 111,22,33, 44]
+vals.each do |val|
   insert_recursive(treeNode, val)
 end
 
@@ -318,7 +334,7 @@ end
 puts "postorder traversal".blue
 postorder_print(treeNode)
 puts "postorder traversal itr".blue
-#postorder_print_itr(treeNode)
+postorder_print_itr(treeNode)
 
 #puts "min".blue
 #puts min(treeNode)

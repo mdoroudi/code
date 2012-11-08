@@ -27,3 +27,21 @@ def fibonacci_dp(number)
 
  n2
 end
+
+
+# fib of three numbers
+def fib_rec_3(number)
+  return 0 if number == 0
+  return 1 if number == 1
+  return 2 if number == 2
+
+
+  res = fib_rec_3(number - 1) + fib_rec_3(number - 2) + fib_rec_3( number - 3)
+  return res
+end
+
+puts fib_rec_3(3)
+puts fib_rec_3(2)
+puts fib_rec_3(1)
+puts fib_rec_3(4)
+
