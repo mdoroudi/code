@@ -72,16 +72,105 @@ def inorder_print(treeNode)
   inorder_print(treeNode.right) if treeNode.right
 end
 
+def inorder_print_itr(treeNode) 
+  stack = []
+  curr_node = treeNode
+  done = false
+
+  while !done
+    if curr_node
+      stack.push(curr_node)
+      curr_node = curr_node.left
+    else
+      if stack.empty?
+        done = true
+      else
+        val = stack.pop
+        puts val.data
+        curr_node = val.right
+      end
+    end
+  end
+end
+
+
+
 def preorder_print(treeNode)
   puts treeNode.data
   preorder_print(treeNode.left) if treeNode.left
   preorder_print(treeNode.right) if treeNode.right
 end
 
+def preorder_print_itr(treeNode)
+  curr_node = treeNode;
+  done = false;
+  stack = []
+
+  while !done
+    if curr_node
+      puts curr_node.data
+      stack.push curr_node
+      curr_node = curr_node.left
+    else
+      if stack.empty?
+        done = true
+      else
+        val = stack.pop
+        curr_node = val.right
+      end
+    end
+  end
+end
+
+
 def postorder_print(treeNode)
   postorder_print(treeNode.left) if treeNode.left
   postorder_print(treeNode.right) if treeNode.right
   puts treeNode.data
+end
+
+def postorder_print_itr(treeNode)
+  return if !treeNode
+  prev = nil;
+  stack = [treeNode]
+
+  while !stack.empty?
+    curr = stack.last
+
+    if !prev || prev.left == curr || prev.right == curr 
+      if curr.left
+        stack.push(curr.left)
+      elsif curr.right
+        stack.push(curr.right) 
+      end
+    elsif curr.left == prev
+      stack.push(curr.right) if curr.right
+    else
+      puts curr.data
+      stack.pop()
+    end
+      
+    prev = curr
+  end
+end
+
+# wronte!
+def postorder_print_itr_helper(curr_node, stack, done)
+
+  while !done
+    if curr_node
+      stack.push curr_node
+      curr_node = curr_node.left
+    else
+      if stack.empty?
+        done = true
+      else
+        val = stack.pop
+        curr_node = val.right
+        puts val.data
+      end
+    end
+  end
 end
 
 # we need to return at every stage, because if we don't then first time around
@@ -215,14 +304,21 @@ class IntegerClass
   end
 end
 
-puts "inorder traversal".blue
-inorder_print(treeNode)
+#puts "inorder traversal".blue
+#inorder_print(treeNode)
+#puts "inorder traversal iterative: ".blue
+#inorder_print_itr(treeNode)
 
 #puts "preorder traversal".blue
 #preorder_print(treeNode)
+#puts "preorder traversal itr".blue
+#preorder_print_itr(treeNode)
 
-#puts "postorder traversal".blue
-#postorder_print(treeNode)
+
+puts "postorder traversal".blue
+postorder_print(treeNode)
+puts "postorder traversal itr".blue
+#postorder_print_itr(treeNode)
 
 #puts "min".blue
 #puts min(treeNode)
