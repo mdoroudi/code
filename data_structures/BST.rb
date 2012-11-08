@@ -166,25 +166,6 @@ def postorder_print_itr(treeNode)
   end
 end
 
-# wronte!
-def postorder_print_itr_helper(curr_node, stack, done)
-
-  while !done
-    if curr_node
-      stack.push curr_node
-      curr_node = curr_node.left
-    else
-      if stack.empty?
-        done = true
-      else
-        val = stack.pop
-        curr_node = val.right
-        puts val.data
-      end
-    end
-  end
-end
-
 # we need to return at every stage, because if we don't then first time around
 # it hits 0 and returns from that call, but all the other calls don't return so
 # it keeps calling the other calls and decrement the counter 
