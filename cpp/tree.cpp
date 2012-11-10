@@ -54,6 +54,13 @@ class Tree {
     return rval;
   }
 
+  bool is_balanced() {
+    int min_h = min_height();
+    int max_h = max_height();
+
+    return ((max_h - min_h) == 1);
+  }
+
   int min_height_helper(TreeNode* curr_root) {
     if (!curr_root)
       return 0;
@@ -183,4 +190,5 @@ int main() {
   m_bst->in_order_traveral();
   m_bst->min_height();
   m_bst->max_height();
+  cout << "tree is balance: " << m_bst->is_balanced() << endl;
 }
