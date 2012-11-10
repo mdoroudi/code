@@ -190,6 +190,26 @@ def nth_inorder_node(treeNode, counter)
   return nil
 end
 
+def is_unival(treeNode)
+  curr_res = true
+  
+  return true if treeNode.nil?
+
+  curr_res &&= treeNode.data == treeNode.left.data if treeNode.left 
+  curr_res &&= treeNode.right.data == treeNode.data if treeNode.right
+  return curr_res if curr_res == false
+
+  return is_unival(treeNode.left) && is_unival(treeNode.right)
+end
+
+def total_unival_subtrees(treeNode)
+
+end
+
+def largest_uniaval_subtree(treeNode)
+  
+end
+
 def max(treeNode)
   return treeNode.data if treeNode.right.nil?
   max(treeNode.right)
@@ -289,10 +309,13 @@ treeNode = TreeNode.new(50)
   #puts val
   #insert_recursive(treeNode, val)
 #end
-vals = [10, 9, 8, 6,4, 2,1,11, 13, 111,22,33, 44]
+#vals = [10, 9, 8, 6,4, 2,1,11, 13, 111,22,33, 44]
+vals = [1,1,1,1,1,1]
 vals.each do |val|
   insert_recursive(treeNode, val)
 end
+
+puts is_unival(treeNode)
 
 class IntegerClass 
   attr_accessor :value
@@ -312,10 +335,10 @@ end
 #preorder_print_itr(treeNode)
 
 
-puts "postorder traversal".blue
-postorder_print(treeNode)
-puts "postorder traversal itr".blue
-postorder_print_itr(treeNode)
+#puts "postorder traversal".blue
+#postorder_print(treeNode)
+#puts "postorder traversal itr".blue
+#postorder_print_itr(treeNode)
 
 #puts "min".blue
 #puts min(treeNode)
@@ -330,8 +353,8 @@ postorder_print_itr(treeNode)
 #puts "deleting 50".blue
 #puts delete(treeNode, 50)
 
-puts "5th in order".blue
-counter = IntegerClass.new(5)
-puts nth_inorder_node(treeNode, counter)
+#puts "5th in order".blue
+#counter = IntegerClass.new(5)
+#puts nth_inorder_node(treeNode, counter)
 
 #puts match(treeNode, treeNode)
