@@ -182,7 +182,6 @@ Tree* create_new_tree() {
 }
 
 int main() {
-  // Tree m_bst(); didn't work for initializing
   Tree* m_bst = create_new_tree();
   m_bst->print_level_by_leve();
   m_bst->post_order_traversal();
