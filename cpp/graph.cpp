@@ -1,106 +1,79 @@
-#include<vector>
-#include<map>
-#include<queue>
+#include <vector>
+#include <map>
+#include <queue>
+#include <set>
 #include <stdlib.h>
 #include <iostream>
 #include <stdio.h>
 using namespace std;
 
-class GraphNode {
-
+class Node {
   public:
-    GraphNode() {};
-    GraphNode(int d)
-    : data(d), 
-    {}
-
-    ~GraphNode() {};
+    Node(int _id=0, int _data=0) 
+      : id(_id)
+      , data(_data)
+    { }
+    
+    ~Node() {};
+    
+    int id;
     int data;
-    static int id;
-
-
-
 };
+
+
 
 class Graph {
   public:
-    //GraphNode* head;
-    map<GraphNode*, vector<GraphNode*> > adjacancy;
+    // Create a node
+    // Get adjacent nodes (id)
+    // Get all nodes ()
+    // Set adjacent (node1, node2)
 
-    // look for a data and if find it return the distance otherwise return -1
-    //int bfs(int s_data) {
-      //if (head->data == s_data)
-        //return 0;
 
-      //queue<GraphNode*> visiting;
-      //map<GraphNode*, bool> visited_map;
-      //visiting.push(head);
-      //visited_map[head] = 0;
-      
+    Node* create_node(int data) {
+      Node node(unique_id, data);
 
-      //while(!visiting.empty()) {
-        //GraphNode* curr_node = visiting.front();
-        //cout << curr_node->data << endl;
-        //visiting.pop();
+      m_nodes.push_back(node);
+      m_id_to_node_map[unique_id] = &m_nodes.back();
+      m_id_to_adjacent_map[unique_id];
 
-        //vector<GraphNode*> curr_children = curr_node->children;
-        //cout << "children size: " << curr_children.size() << endl;
-        //for(int i = 0; i < curr_children.size(); i++) {
-          //GraphNode* curr_child = curr_children[i];
-          //if (curr_child->data == s_data)
-            //return visited_map[curr_node]+1;
-          //if (visited_map.find(curr_child) == visited_map.end()) {
-            //visiting.push(curr_child);
-            //visited_map[curr_child] = visited_map[curr_node]+1;
-          //}
-        //}
-      //}
-      //return -1;
-    //}
-
-    void dfs() {
+      unique_id++;
+      return &m_nodes.back();
     }
-  
 
+    const set<int>* get_adjacent_nodes(int id) {
+      if (m_id_to_adjacent_map.find(id) != m_id_to_adjacent_map.end())
+        return &m_id_to_adjacent_map[id];
+      return NULL;
+    }
+
+    void set_adjacent(int id1, int id2) {
+      if (has_node(id1) && has_node(id2)) {
+        m_id_to_adjacent_map[id1].insert(id2);
+      }
+    }
+
+    const vector<Node>& get_all_nodes() {
+      return m_nodes;
+    }
+
+    bool has_node(int id) {
+      return m_id_to_node_map.find(id) != m_id_to_node_map.end();
+    }
+
+  private:
+    static int unique_id;
+    vector<Node>             m_nodes;
+    map<int, Node*>          m_id_to_node_map;
+    map<int, set<int> > m_id_to_adjacent_map;
 };
-
-//Graph* create_graph() {
-  //GraphNode* root = new GraphNode(10);
-  //int ch[] = {1,2,3,4,5};
-  //vector<GraphNode*> children(5);
-  //for(int i =  0; i < 5; i++) {
-    //children[i] = new GraphNode(ch[i]);
-  //}
-  //root->children = children;
-
-  //int ch2[] = {10,20,30,40,50};
-  //vector<GraphNode*> children2(5);
-  //for(int i =  0; i < 5; i++) {
-    //children2[i] = new GraphNode(ch2[i]);
-  //}
-  //root->children[0]->children = children2;
-
-
-  //Graph* g = new Graph();
-  //g->head = root;
-  //return g;
-//}
-
-void create_adjacancy_graph(map<GraphNode*, vector<GraphNode*> >& graph) {
-
-  vector<GraphNode*>* list_of_nodes = new vector<GraphNode*>();
-  
-  for (int i = 0; i < 20; i++) {
-    GraphNode* new_node = new GraphNode(i);
-    graph[new_node] = new vector<GraphNode*>(); 
-    list_of_nodes->insert(new_node);
-  }
-  
-  return graph;
-}
+int Graph::unique_id = 0;
 
 int main() {
-  Graph* graph = new Graph();
-  map<GraphNode*, vector<GraphNode*> >  adjacancy;
-  graph->adjacancy = create_adjacancy_graph();
+  Graph my_graph;
+  for (int i = 0; i < 10; i++) {
+    Node* n = my_graph.create_node(-i);
+    cout << "id: " << n->id << " data: " << n->data << endl;
+  }
 }
+
