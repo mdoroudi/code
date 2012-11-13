@@ -123,6 +123,7 @@ def largest_submatrix_ones(mx)
       while row < rows
         if has_any_zeros?(sum_mx, row, col1, col2)
           row += 1
+          curr_sum = 0
         else
           curr_sum += row_sum(sum_mx, row, col2) 
           if curr_largest < curr_sum
@@ -174,5 +175,68 @@ def create_sum_submarix(mx)
       end
     end
   end
+  sum_mx
+end
+
+
+
+############################################################
+# only return the largest sum and not the matrix itself 
+# easier to read
+############################################################
+#
+
+# given an array of integers give the contigues block that has the largest sum. There can be negative numbers
+
+def matrix_largest_block_simple(mx)
+  rows = mx.size
+  cols = mx[0].size+1
+  sum_mx = sum_rows_matrix(mx)
+
+  largest = nil
+
+  for col1 in (0...cols)
+    for col2 in (col1+1...cols)
+
+      curr_sum = 0
+      curr_best_sum = nil
+      for i in (0...rows)
+        row_sum = calc_row_sum(sum_mx, i, col1, col2) 
+        curr_sum += row_sum 
+        if curr_best_sum.nil? || curr_sum > curr_best_sum 
+          curr_best_sum = curr_sum
+        end
+        curr_sum = 0 if curr_sum < 0
+      end
+      largest = curr_best_sum if largest < curr_best_sum 
+    end
+  end
+  largest
+end
+
+def calc_row_sum(sum_mx, i,col1, col2)
+  sum_mx[i][col2] - sum_mx[i][col1]
+end
+
+def sum_rows_matrix(mx)
+  rows = mx.size
+  cols = mx[0].size + 1
+
+  sum_mx = []*rows
+  for i in (0...rows)
+    sum_mx << Array.new(cols,nil)
+  end
+
+  for i in (0...rows)
+    sum_mx[i][0] = 0
+    sum_mx[i][1] = mx[i][0]
+  end
+
+  for i in (0...rows)
+    for j in (1...cols)
+      sum_mx[i][j] = sum[i][j-1] + sum[i][j]
+    end
+  end
+
   sum_mx
 end
