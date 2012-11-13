@@ -67,6 +67,8 @@ end
 # The matching table:
 # value at index i ( table[i] ) shows if the index i-1 was a match  
 def build_partial_match_table(word)
+  return [] if word.length == 0
+
   table = []*word.length
   table[0] = -1 # if failed at first letter, jump to next letter
   table[1] = 0  # if the first character matches, and the next one doesn't match we just jump to the next letter there is no where else to go 
@@ -98,5 +100,5 @@ def build_partial_match_table(word)
       i_t += 1
     end
   end
-  w.size == 0 ? [] : table
+  table
 end
