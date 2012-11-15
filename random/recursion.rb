@@ -4,6 +4,7 @@ require 'debugger'
 def n_comb_rec(nums, combination_size)
   puts "#{combination_size} choose #{nums.size()}"
   return [] if combination_size > nums.size()
+
   all_res = []
   used = [false]*nums.size()
   do_n_comb_rec(combination_size, nums, [], 0, used, all_res, 0)
