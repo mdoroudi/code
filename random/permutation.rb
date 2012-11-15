@@ -1,6 +1,8 @@
 require 'debugger'
 require 'colorize'
 
+
+# all permutation of str where order does not matter but repetition does matter
 def permutation(str)
   str_length = str.size
   result = " "*str_length
@@ -31,6 +33,7 @@ def do_permutation(str, str_res, used, length, recursLev)
 
 end
 
+# set of all combination of str, so combination of size 0 to size str.size()
 def combination(str)
   result = [""]
   do_combination(str, result)

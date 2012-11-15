@@ -1,25 +1,63 @@
-def three_numbers_add_to_zero(all_numbers)
-  res_sum = []
-  level = 0
-  used = [0]*all_numbers.size()
-  puts do_three_numbers_add_to_zero(numbers, res_sum, level, used)
+require 'debugger'
+
+# getting combination of n choose x
+def n_comb_rec(nums, combination_size)
+  puts "#{combination_size} choose #{nums.size()}"
+  return [] if combination_size > nums.size()
+  all_res = []
+  used = [false]*nums.size()
+  do_n_comb_rec(combination_size, nums, [], 0, used, all_res, 0)
+
+  puts all_res.size()
+  return all_res.size()
 end
 
-def do_three_numbers_add_to_zero(numbers, res_sum, level, used)
-  if level == 3
-    return true if res_sum.inject(:+) == 0
+def do_n_comb_rec(combination_size, nums, curr_res, level, used, all_res, i_start)
+  if level == combination_size
+    all_res << curr_res
+    puts curr_res.to_s
+    return 
   end
 
-  for i in (0...numbers.size())
-    if used[i] == 0
-      res += numbers[i]
-      used[i] = true
-      this_res = do_three_numbers_add_to_zero(numbers, res_sum, level+1, used)
-      return true if this_res == true
+  for i in (i_start...nums.size())
+    curr_res[level] = nums[i]
+    used[i] = true
+    do_n_comb_rec(combination_size, nums, curr_res, level+1, used, all_res, i+1)
+  end
+
+end
+
+# pick 3 out of n numbers
+def three_combinations(nums)
+  res = []
+  for i in (0...nums.size())
+    for j in (i+1...nums.size())
+      for k in (j+1...nums.size())
+        res << [nums[i], nums[j], nums[k]]
+      end
+    end
+  end
+  puts res.size()
+  res
+end
+
+# if sum of any 3 out of n numbes add to zero
+def three_add_to_zero?(nums)
+  for i in (0...nums.size())
+    for j in (i+1...nums.size())
+      for k in (j+1...nums.size())
+        if nums[i]+nums[j]+nums[k] == 0
+          return true;
+        end
+      end
     end
   end
   return false
 end
 
-nums = [0,2,1,2,2,3]
-three_numbers_add_to_zero(nums)
+nums = [0,1,2,3,4,5]
+puts "supposed to have total: #{nums.size()*(nums.size()-1)*(nums.size()-2)/6} for "+nums.to_s
+#three_numbers_add_to_zero(nums)
+#three_combinations(nums)
+n_comb_rec(nums, 3)
+n_comb_rec(nums,1)
