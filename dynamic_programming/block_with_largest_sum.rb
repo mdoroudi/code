@@ -27,6 +27,21 @@ def array_largest_block(sequence)
   return {l_sum: largest, start: i, end: end_index_of_largest_block}
 end
 
+def arr_with_largest_block_second(sequence)
+  max_sum = sequence[0]
+  curr_max = sequence[0]
+  curr_sum = 0
+  for i in (1...sequence.size())
+    curr_sum = sequence[i]+max_sum
+    if curr_sum < 0
+      curr_sum == 0
+    else
+       
+    end
+  end
+  
+end
+
 
 def matrix_largest_block(mx)
   rows = mx.size

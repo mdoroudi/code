@@ -2,7 +2,7 @@ require 'debugger'
 require 'colorize'
 
 
-# all permutation of str where order does not matter but repetition does matter
+# all permutation of str, there are n! where n is size of the string
 def permutation(str)
   str_length = str.size
   result = " "*str_length

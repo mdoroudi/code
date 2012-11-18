@@ -101,7 +101,7 @@ def preorder_print(treeNode)
   preorder_print(treeNode.right) if treeNode.right
 end
 
-def preorder_print_itr(treeNode)
+def preorder_print_itr_do(treeNode)
   curr_node = treeNode;
   done = false;
   stack = []
@@ -122,7 +122,6 @@ def preorder_print_itr(treeNode)
   end
 
 end
-
 
 def postorder_print(treeNode)
   postorder_print(treeNode.left) if treeNode.left
