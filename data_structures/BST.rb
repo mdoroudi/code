@@ -273,9 +273,7 @@ def match(t1, t2)
   return true if t1.nil? && t2.nil?
   return false if t1.nil? || t2.nil?
 
-  return match(t1.left, t2.left)  
-  return t1.data == t2.data
-  return match(t1.right, t2.right)
+  return match(t1.left, t2.left) && t1.data == t2.data && match(t1.right, t2.right) 
 end
 
 def tree_to_ll_inorder(tree)
@@ -308,13 +306,13 @@ treeNode = TreeNode.new(50)
   #puts val
   #insert_recursive(treeNode, val)
 #end
-#vals = [10, 9, 8, 6,4, 2,1,11, 13, 111,22,33, 44]
-vals = [1,1,1,1,1,1]
+vals = [10, 9, 8, 6,4, 2,1,11, 13, 111,22,33, 44]
+#vals = [1,1,1,1,1,1]
 vals.each do |val|
   insert_recursive(treeNode, val)
 end
 
-puts is_unival(treeNode)
+#puts is_unival(treeNode)
 
 class IntegerClass 
   attr_accessor :value
@@ -356,4 +354,10 @@ end
 #counter = IntegerClass.new(5)
 #puts nth_inorder_node(treeNode, counter)
 
+#treeNode2 = TreeNode.new(50)
+#vals = [10, 0, 8, 6,4, 2,1,11, 16, 111,22,33, 44]
+#vals.each do |val|
+  #insert_recursive(treeNode2, val)
+#end
+#puts match(treeNode, treeNode2)
 #puts match(treeNode, treeNode)
